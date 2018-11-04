@@ -1,0 +1,68 @@
+
+@media screen and (min-width: 1024px) {
+  .App {
+    padding-top: 128px;
+  }
+}
+
+.bg-secondary {
+  background-color: #b0a13c !important;
+}
+
+.bg-hero {
+  background: url(../img/bg_splash.png) #b0a13c no-repeat center center;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+#key-highlights {
+  background-color: #397b9f;
+  color: white;
+}
+
+.has-text-primary {
+  color: #397b9f !important;
+}
+
+#key-highlights .col {
+  padding: 1.2rem 2rem !important;
+  cursor: pointer;
+  transition: all 0.5s;
+  border-left: 1px solid #2c5e79;
+}
+
+#key-highlights .col:hover {
+  color: #e6e6e6;
+  background-color: #2c5e79;
+}
+
+.sgds-button:hover {
+  color: #b0a13c !important;
+}
+
+.navbar-link:hover {
+  color: #b0a13c !important;
+}
+
+.button.is-secondary, .sgds-button.is-secondary {
+  background-color: #b0a13c;
+}
+
+.button.is-secondary, .sgds-button.is-secondary:hover {
+  background-color: #b0a13c;
+  opacity: 0.9;
+  color: #FFF !important;
+}
+
+.has-text-secondary {
+  color: #b0a13c !important; 
+}
+
+.sgds-section.is-small.sgds-section-pagetitle {
+  background-color: #b0a13c;
+}
+
+a.navbar-item.is-active, a.navbar-link.is-active {
+  color: #b0a13c !important;
+  border-bottom: 2px solid #b0a13c;
+}
