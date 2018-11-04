@@ -1,58 +1,47 @@
 import React, { Component } from 'react';
 import { Form, Spin, Input, Icon, Button } from 'antd';
+import DefaultNavbar from '../static/defaultNavbar';
 
 const FormItem = Form.Item;
 
 class Login extends Component {
     constructor() {
         super();
-        this.state = { isLoading: false };
     }
 
     componentWillMount() {
-        document.body.classList.add('login-background');
+        document.body.style.backgroundColor = "#F2F2F2";
     }
     componentWillUnmount() {
-        document.body.classList.remove('login-background');
+        document.body.style.backgroundColor = "#FFFFFF";
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.setState({ isLoading: true });
-                this.props.adminLogin(values.email, values.password)
-                    .then((reduxResponse) => {
-                        const success = reduxResponse.payload;
-                        if (success) {
-                            // window.location.href = this.props.match.path.replace('login', '');
-                            this.props.history.push('/admin/');
-                        } else {
-                            this.setState({ isLoading: false });
-                        }
-                    })
-                    .catch(() => this.setState({ isLoading: false }));
+                this.props.history.push('/demo/home');
             }
         });
     }
 
     render() {
-        const { isLoading } = this.state;
         const { getFieldDecorator } = this.props.form;
 
 
         return (
-            <div className="login-page">
-                <Spin spinning={isLoading} tip="Logging in...">
+            <div>
+                <DefaultNavbar />
+                <div className="login-page">
                     <div className="form" style={{ marginBottom: 0 }}>
                         <div style={{ marginBottom: 16 }}>
-                            <h3>Welcome</h3>
+                            <h3 style={{ color: "#b0a13c" }}>Welcome</h3>
                         </div>
 
                         <Form onSubmit={this.handleSubmit} className="login-form">
                             <FormItem>
                                 {getFieldDecorator('email', {
-                                    rules: [{ required: true, message: 'Please input your email!' }],
+                                    rules: [{ required: true, message: 'Please input your Email!' }],
                                 })(
                                     <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />,
                                 )}
@@ -64,12 +53,11 @@ class Login extends Component {
                                     <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />,
                                 )}
                             </FormItem>
-                            <Button type="primary" htmlType="submit" style={{ width: 240 }}>Log in</Button>
+                            <Button className="sgds-button is-rounded is-medium is-secondary margin--top--lg" type="primary" htmlType="submit" style={{ width: '100%', height: '49.5px' }}>Log in</Button>
                         </Form>
                     </div>
-                </Spin>
+                </div>
             </div>
-
         );
     }
 }
