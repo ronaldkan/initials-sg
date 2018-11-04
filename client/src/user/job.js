@@ -18,7 +18,7 @@ const documents = [
         "description": "Description1"
     }
 ]
-class Home extends Component {
+class Job extends Component {
 
     componentDidMount() {
     }
@@ -57,4 +57,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default Job;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Logo from '../img/logo_sgds.png';
+import Logo from '../../img/logo_sgds.png';
 
 class Navbar extends Component {
 
@@ -43,7 +43,7 @@ class Navbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <a className="navbar-item" href="/">
+                            <a className="navbar-item" href="/demo/home">
                                 <img src={Logo} alt="" />
                             </a>
                             <div id="mobileMain" className="navbar-burger burger" data-target="navbarMain" onClick={this.mobileMenu}>
@@ -66,8 +66,7 @@ class Navbar extends Component {
                         </div>
                         <div className="navbar-end is-hidden-touch">
                             <div className="navbar-item">
-                                <a className="navbar-link is-uppercase sgds-button is-rounded is-large" href="https://form.gov.sg/forms/govtech/5bd18e5c46209b000f56f3e0"
-                                    target="_blank">
+                                <a className="navbar-link is-uppercase sgds-button is-rounded is-large" href="/demo/login">
                                     <h6>Login</h6>
                                 </a>
                             </div>

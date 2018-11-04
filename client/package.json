@@ -5,17 +5,20 @@
   "dependencies": {
     "antd": "^3.10.4",
     "axios": "^0.18.0",
-    "crypto-js": "^3.1.9-1",
-    "js-cookie": "^2.2.0",
-    "jwt-decode": "^2.2.0",
+    "cryptr": "^4.0.0",
+    "file-saver": "^1.3.8",
+    "html2canvas": "^1.0.0-alpha.12",
+    "is-incognito": "^1.0.0",
+    "jspdf": "^1.4.1",
     "moment": "^2.22.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "pdf": "^0.1.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-pdf": "^3.0.5",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
-    "sgds-govtech": "^1.0.12",
-    "sketch": "^0.2.0"
+    "react-scripts": "1.1.4",
+    "sgds-govtech": "^1.0.12"
   },
   "scripts": {
     "start": "react-scripts start",
