@@ -6887,9 +6887,9 @@ setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
 
-sgds-govtech@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/sgds-govtech/-/sgds-govtech-1.0.12.tgz#6acf6bc42c68ccc5d1033ab1cdb5aac6a1f7bd44"
+sgds-govtech@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/sgds-govtech/-/sgds-govtech-1.0.13.tgz#c0e9aee6f5698bab1b0991b586aa271859201667"
 
 sha.js@^2.4.0, sha.js@^2.4.8:
   version "2.4.11"

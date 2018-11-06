@@ -16,7 +16,7 @@ class Sidebar extends Component {
     render() {
         return (
             <div>
-                <div className="sidenav" style={{ minHeight: '500px' }}>
+                <div className="sidenav" style={{ minHeight: '60vh' }}>
                     <aside className="sgds-menu sidebar__inner">
                         <ul className="sgds-menu-list">
                             <li>

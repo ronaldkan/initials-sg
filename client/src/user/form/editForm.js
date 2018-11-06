@@ -16,6 +16,7 @@ class EditForm extends Component {
     }
 
     handleSubmit = (e) => {
+        console.log(this.props.templateId);
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             // if (!err) {

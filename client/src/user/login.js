@@ -10,12 +10,12 @@ class Login extends Component {
         super();
     }
 
-    componentWillMount() {
-        document.body.style.backgroundColor = "#F2F2F2";
-    }
-    componentWillUnmount() {
-        document.body.style.backgroundColor = "#FFFFFF";
-    }
+    // componentWillMount() {
+    //     document.body.style.backgroundColor = "#F2F2F2";
+    // }
+    // componentWillUnmount() {
+    //     document.body.style.backgroundColor = "#FFFFFF";
+    // }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -33,9 +33,9 @@ class Login extends Component {
         return (
             <div className="App">
                 <DefaultNavbar />
-                <section className="sgds-section">
+                <section className="sgds-section" style={{ backgroundColor:'#F2F2F2' }}>
                     <div className="sgds-container">
-                        <div className="row">
+                        <div className="row" style={{ minHeight: '60vh' }}>
                             <div className="login-page">
                                 <div className="form" style={{ marginBottom: "150px" }}>
                                     <div style={{ marginBottom: 16 }}>

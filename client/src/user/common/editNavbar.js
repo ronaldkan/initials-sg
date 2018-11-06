@@ -3,6 +3,9 @@ import Logo from '../../img/logo_sgds.png';
 
 class EditNavbar extends Component {
     render() {
+
+        const { saveTemplate } = this.props;
+
         return (
             <div className="masthead-container" id="navbar">
                 <div className="sgds-masthead">
@@ -20,7 +23,7 @@ class EditNavbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <a className="navbar-item" href="/demo/home">
+                            <a className="navbar-item" href="/demo">
                                 <img src={Logo} alt="" />
                             </a>
                             <div id="mobileMain" className="navbar-burger burger" data-target="navbarMain" onClick={this.mobileMenu}>
@@ -34,7 +37,7 @@ class EditNavbar extends Component {
                             </div>
                         </div>
                         <div className="navbar-end is-hidden-touch">
-                            <div className="navbar-item">
+                            <div className="navbar-item" onClick={() => saveTemplate()}>
                                 <a className="navbar-link is-uppercase sgds-button is-rounded is-large">
                                     <h6>Save</h6>
                                 </a>

@@ -56,7 +56,7 @@ function MailBox(props) {
 }
 
 
-class Home extends Component {
+class Edit extends Component {
 
     constructor() {
         super();
@@ -70,19 +70,20 @@ class Home extends Component {
             popOverX: 0,
             popOverY: 0,
             showPopup: false,
-            componentList: []
+            componentList: [],
+            documentId: null,
         };
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/template?fileName=${this.props.match.params.document}.pdf`)
-            .then(response => response)
+        axios.get(`http://localhost:5000/api/template?fileName=${this.props.match.params.document}`)
+            .then(response => response.data)
             .then(data => {
-                this.setState({ url: `http://localhost:5000/api/file?fileName=${this.props.match.params.document}.pdf` });
-                if (!data.data.content) {
+                this.setState({ url: `http://localhost:5000/api/file?fileName=${this.props.match.params.document}` });
+                if (!data) {
                     return;
                 }
-                let componentList = JSON.parse(data.data.content.components);
+                let componentList = JSON.parse(data.component);
                 this.setState({ componentList: componentList });
             });
 
@@ -235,13 +236,15 @@ class Home extends Component {
         this.props.history.push('/');
     }
 
-    saveTemplate = (b2h) => {
+    saveTemplate = () => {
+        var nextUrl = `/demo/view/${this.props.match.params.document}`;
+        var historyProp = this.props.history;
         axios.post('http://localhost:5000/api/save', {
             components: JSON.stringify(this.state.componentList),
-            filename: this.props.match.params.document + ".pdf"
+            filename: this.props.match.params.document
         })
             .then(function (response) {
-                // b2h();
+                historyProp.push(nextUrl);
                 notification['success']({
                     message: 'Save successful!',
                     description: 'Current template has been updated!',
@@ -255,16 +258,16 @@ class Home extends Component {
     render() {
 
         const { pageNumber, url, popOverX, popOverY, showPopup, componentList } = this.state;
-        const { document } = this.props.match.params;
+
         return (
             <div className="App">
-                <Navbar />
+                <Navbar saveTemplate={this.saveTemplate} />
                 <Layout>
                     <Content style={{ margin: '24px 20% 50px 20%' }}>
                         <Document
                             className='mydoc'
                             ref='abc'
-                            file={"http://localhost:5000/api/view"}
+                            file={url}
                             onClick={this.onItemClick}
                             onLoadSuccess={this.onDocumentLoadSuccess}
                         >
@@ -287,4 +290,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default Edit;

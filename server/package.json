@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cryptr": "^4.0.0",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.1",
+    "express-zip": "^2.0.1",
+    "hummus-recipe": "^1.8.0",
+    "jsonwebtoken": "^8.3.0",
+    "multer": "^1.4.1",
+    "pg": "^7.6.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.41.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
+  }
+}

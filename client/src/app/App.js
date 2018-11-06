@@ -24,8 +24,8 @@ class App extends Component {
         <Route path="/faq" exact component={Faq} />
         <Route path="/demo" exact component={UserHome} />
         <Route path="/demo/job" exact component={UserJob} />
-        <Route path="/demo/edit" exact component={UserEdit} />
-        <Route path="/demo/view" exact component={UserView} />
+        <Route path="/demo/edit/:document" exact component={UserEdit} />
+        <Route path="/demo/view/:document" exact component={UserView} />
         <Route path="/demo/home" exact component={UserLanding} />
         <Route path="/demo/login" exact component={UserLogin} />
       </Switch>
