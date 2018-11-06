@@ -10,13 +10,6 @@ class Login extends Component {
         super();
     }
 
-    // componentWillMount() {
-    //     document.body.style.backgroundColor = "#F2F2F2";
-    // }
-    // componentWillUnmount() {
-    //     document.body.style.backgroundColor = "#FFFFFF";
-    // }
-
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {

@@ -14,6 +14,9 @@ import UserHome from '../user/home';
 import UserEdit from '../user/template/edit';
 import UserView from '../user/template/view';
 import UserJob from '../user/job';
+import UserSign from '../user/sign';
+import UserComplete from '../user/common/complete';
+import UserCompletedView from '../user/view';
 
 class App extends Component {
   render() {
@@ -26,6 +29,9 @@ class App extends Component {
         <Route path="/demo/job" exact component={UserJob} />
         <Route path="/demo/edit/:document" exact component={UserEdit} />
         <Route path="/demo/view/:document" exact component={UserView} />
+        <Route path="/demo/sign/:uuid" exact component={UserSign} />
+        <Route path="/demo/complete" exact component={UserComplete} />
+        <Route path="/demo/completed/:uuid" exact component={UserCompletedView} />
         <Route path="/demo/home" exact component={UserLanding} />
         <Route path="/demo/login" exact component={UserLogin} />
       </Switch>

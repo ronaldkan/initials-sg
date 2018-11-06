@@ -12,13 +12,32 @@ module.exports = {
             }]
         })
     },
-    createJob: function() {
+    createJob: function(to, subject, message, templateId, data) {
         return job.create({
-            recipient: "ronaldxkan@gmail.com",
-            data: "{fewfwefwfffw: fewfwefew}",
-            subject: "subject 1",
-            message: " hello there",
-            TemplateId: 1,
+            recipient: to,
+            data: data,
+            subject: subject,
+            message: message,
+            TemplateId: templateId,
         });
+    },
+    getJobByUuid: function(uuid) {
+        return job.findOne({
+            where: {
+                uuid: uuid
+            },
+            include: [{
+                model: models.Template
+            }]
+        })
+    },
+    updateJobDataByUuid: function(uuid, data) {
+        return job.update({
+            data: data
+        }, {
+            where: {
+                uuid: uuid
+            }
+        })
     }
 };

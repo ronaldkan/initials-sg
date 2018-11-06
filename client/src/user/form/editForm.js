@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, Checkbox } from 'antd';
+import { Form, Input, Icon, Button, notification } from 'antd';
 import axios from 'axios';
 
 const FormItem = Form.Item;
@@ -16,22 +16,23 @@ class EditForm extends Component {
     }
 
     handleSubmit = (e) => {
-        console.log(this.props.templateId);
+        var templateId = this.props.templateId;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            // if (!err) {
-            //     values['filename'] = this.props.document;
-            //     axios.get('http://localhost:5000/api/send', {
-            //         params: values
-            //     }).then(response => response)
-            //         .then(data => {
-            //             notification['success']({
-            //                 message: 'Email sent!',
-            //                 description: 'Document signing request have been sent!',
-            //             });
-            //             this.props.backtoHome();
-            //         });
-            // }
+            if (!err) {
+                values["TemplateId"] = templateId;
+                values["data"] = "";
+                axios.get('http://localhost:5000/api/send', {
+                    params: values
+                }).then(response => response)
+                    .then(data => {
+                        notification['success']({
+                            message: 'Email sent!',
+                            description: 'Document signing request have been sent!',
+                        });
+                        this.props.backtoHome();
+                    });
+            }
         });
     }
 
@@ -41,11 +42,18 @@ class EditForm extends Component {
 
         return (
             <Form onSubmit={this.handleSubmit} style={{ margin: '20px 20px 20px 20px' }}>
-                <FormItem label="Recipient">
-                    {getFieldDecorator('signee', {
+                <FormItem label="Recipient Email">
+                    {getFieldDecorator('to', {
                         rules: [{ required: true, message: 'Please enter a valid Email Address' }],
                     })(
                         <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="initials@initials.sg" />,
+                    )}
+                </FormItem>
+                <FormItem label="Recipient Name">
+                    {getFieldDecorator('name', {
+                        rules: [{ required: true, message: "Please enter the recipient's name" }],
+                    })(
+                        <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="" />,
                     )}
                 </FormItem>
                 <FormItem label="Subject">
@@ -55,9 +63,9 @@ class EditForm extends Component {
                         <Input prefix={<Icon type="edit" style={{ fontSize: 13 }} />} placeholder="Subject" />,
                     )}
                 </FormItem>
-                <FormItem label="Email Content">
-                    {getFieldDecorator('content', {
-                        rules: [{ required: true, message: 'Please enter a email content' }],
+                <FormItem label="Email Message">
+                    {getFieldDecorator('message', {
+                        rules: [{ required: true, message: 'Please enter a email message' }],
                     })(
                         <TextArea rows={4} />,
                     )}

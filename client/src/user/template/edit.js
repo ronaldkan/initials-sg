@@ -23,14 +23,14 @@ function MailBox(props) {
         if (c.type === 'text') {
             theComp = <Input
                 id={c.id}
-                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 9999, height: `${c.height}%`, width: `${c.width}%` }}
+                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%` }}
             />;
         } else if (c.type === 'sign') {
             theComp = <img src={BlankImage}
                 className='signBox'
                 id={c.id}
                 alt='blank'
-                style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 9999 }}
+                style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
             />;
         }
 

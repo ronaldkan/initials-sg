@@ -20,14 +20,14 @@ function MailBox(props) {
                 onClick={()=>props.clickInput(c.id)}
                 id={c.id}
                 value={""}
-                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 9999, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
             />;
         } else if (c.type === 'sign') {
             theComp = <img src={BlankImage}
                 className='signBox'
                 id={c.id}
                 alt='blank'
-                style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 9999 }}
+                style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
             />;
         }
 
@@ -77,6 +77,10 @@ class View extends Component {
         this.props.history.push(`/demo/edit/${this.props.match.params.document}`);
     }
 
+    backtoHome1 = () => {
+        this.props.history.push('/demo');
+    }
+
     clickInput = (id) => {
         console.log(id);
     }
@@ -103,7 +107,7 @@ class View extends Component {
                             </Content>
                         </Layout>
                         <Sider width={300} style={{ background: '#fff' }}>
-                            <EditForm backtoHome={() => this.backtoHome()} saveTemplate={() => this.backtoHome()} document={document} templateId={templateId} />
+                            <EditForm backtoHome={() => this.backtoHome1()} saveTemplate={() => this.backtoHome()} document={document} templateId={templateId} />
                         </Sider>
                     </Layout>
                 </Layout>

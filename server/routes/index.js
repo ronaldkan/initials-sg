@@ -7,9 +7,11 @@ const multer = require('multer');
 const HummusRecipe = require('hummus-recipe');
 var zip = require('express-zip');
 
+const smtpUtil = require('../utils/smtp');
 var folderPath = path.join(__dirname, '../pdf/');
 var template = require('../services/template');
 var job = require('../services/job');
+
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../pdf'),
@@ -20,7 +22,7 @@ const storage = multer.diskStorage({
         }
         else {
             cb(null, `${file.originalname}`);
-            template.createTemplate(file.originalname, "[]");
+            // template.createTemplate(file.originalname, "[]");
         }
     },
 });
@@ -50,8 +52,24 @@ router.get('/api/template', (req, res) => {
 });
 
 router.post('/api/save', (req, res) => {
-    template.updateTemplate(req.body.filename, req.body.components).then(function(data) {
+    template.updateTemplate(req.body.filename, req.body.components).then(function (data) {
         res.send({ result: 'success' })
+    });
+});
+
+router.get('/api/send', (req, res) => {
+    var info = req.query;
+    job.createJob(info.to, info.subject, info.subject, info.TemplateId, info.data).then(function (data) {
+        info["url"] = "http://localhost:3000/demo/sign/" + data.uuid;
+        smtpUtil.sendEmail(info);
+        res.send({ result: 'success' });
+    });
+});
+
+router.put('/api/job', (req, res) => {
+    console.log(req.body);
+    job.updateJobDataByUuid(req.body.uuid, req.body.data).then(data => {
+        res.send(data);
     });
 });
 
@@ -71,7 +89,14 @@ router.get('/api/job/all', (req, res) => {
     job.getAll().then(data => {
         res.json(data);
     });
-}); 
+});
+
+router.get('/api/job/:uuid', (req, res) => {
+    console.log(req.params.uuid);
+    job.getJobByUuid(req.params.uuid).then(data => {
+        res.json(data);
+    });
+});
 
 
 
@@ -86,7 +111,7 @@ router.get('/api/token', (req, res) => {
     var token = jsonwebtoken.sign({}, secret, {
         expiresIn: 60
     });
-    res.json({ 'content' : cryptr.encrypt(token) });
+    res.json({ 'content': cryptr.encrypt(token) });
 });
 
 // router.get('/api/view', jwt({secret: secret}), (req, res) => {

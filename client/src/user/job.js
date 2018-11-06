@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import moment from 'moment';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
-import { List, Button } from 'antd';
+import { List, Button, Badge, Card } from 'antd';
 
 const documents = [
     {
@@ -20,10 +22,40 @@ const documents = [
 ]
 class Job extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            jobs: []
+        };
+    }
+
     componentDidMount() {
+        this.getJobs();
+    }
+
+    getJobs = () => {
+        axios.get('http://localhost:5000/api/job/all')
+            .then(response => response.data)
+            .then(data => {
+                let myData = [];
+                data.forEach(element => {
+                    var date = moment(element.createdAt).format('YYYY-MM-DD HH:mm');
+                    if (element.isSigned || element.isCancelled) {
+                        date = moment(element.updatedAt).format('YYYY-MM-DD HH:mm');
+                    }
+                    myData.push({
+                        date: date,
+                        element: element
+                    });
+                });
+
+                this.setState({ jobs: myData });
+            });
     }
 
     render() {
+        const { jobs } = this.state;
+
         return (
             <div className="App">
                 <DefaultNavbar />
@@ -35,18 +67,30 @@ class Job extends Component {
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
                                 <List
-                                    bordered={true}
-                                    itemLayout="horizontal"
-                                    dataSource={documents}
+                                    grid={{ gutter: 16, column: 3 }}
+                                    style={{ backgroundColor: 'FFFFFF' }}
+                                    dataSource={jobs}
+                                    pagination={{
+                                        onChange: (page) => {
+                                            console.log(page);
+                                        },
+                                        pageSize: 9,
+                                    }}
                                     renderItem={item => (
-                                    <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`${item.title}/edit`)}>View</Button>]}>
-                                            <List.Item.Meta
-                                                // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                                title={item.title}
-                                                description={item.description}
-                                            />
-                                        </List.Item>
-                                    )} />
+                                        item.element.data ?
+                                            <List.Item>
+                                                <Card title={item.element.Template.file} extra={<div><Badge style={{ backgroundColor: "#b0a13c" }} count={"Completed"} /> | <a href={`/demo/completed/${item.element.uuid}`} target='_blank'>View</a></div>}>
+                                                    <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.element.message}<br></br>{item.date}<br></br></div>
+                                                </Card>
+                                            </List.Item>
+                                            :
+                                            <List.Item>
+                                                <Card title={item.element.Template.file} extra={<Badge count={"Pending"} />}>
+                                                    <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.element.message}<br></br>{item.date}</div>
+                                                </Card>
+                                            </List.Item>
+                                    )}
+                                />
                             </div>
                         </div>
                     </div>
