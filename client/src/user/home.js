@@ -4,6 +4,7 @@ import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
 import { List, Button, Upload, message, Icon } from 'antd';
+import * as Cookies from 'js-cookie';
 
 
 class Home extends Component {
@@ -23,7 +24,7 @@ class Home extends Component {
                 data.forEach(element => {
                     myData.push({
                         title: element.file,
-                        description: 'Uploaded by admin'
+                        description: 'Uploaded by ' + element.createdBy
                     })
                 });
                 this.setState({ documents: myData });
@@ -32,7 +33,7 @@ class Home extends Component {
 
     getUploadProps(getDocs) {
         return {
-            action: 'http://localhost:5000/api/upload',
+            action: `http://localhost:5000/api/upload?name=${Cookies.get('initialsdemo')}`,
             onChange({ file, fileList }) {
                 if (file.status === 'done') {
                     message.success(`${file.name} file uploaded successfully`);
@@ -42,6 +43,10 @@ class Home extends Component {
                 }
             }
         }
+    }
+
+    getToHome = () => {
+        this.props.history.push('/demo/home');
     }
 
     componentDidMount() {
@@ -59,7 +64,7 @@ class Home extends Component {
                     <div className="sgds-container">
                         <div className="row">
                             <div className="col is-3 is-hidden-touch has-side-nav">
-                                <Sidebar />
+                                <Sidebar getToHome={this.getToHome}/>
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
                                 <Upload {...props} style={{ marginBottom: '15px' }}>

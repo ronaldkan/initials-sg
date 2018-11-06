@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
         }
         else {
             cb(null, `${file.originalname}`);
-            // template.createTemplate(file.originalname, "[]");
+            template.createTemplate(file.originalname, "[]", req.query.name);
         }
     },
 });

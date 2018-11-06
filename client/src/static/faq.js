@@ -13,7 +13,7 @@ class Faq extends Component {
                             <ul>
                                 <li><a href="/"><small>HOME</small></a></li>
 
-                                <li><a href="/general/faq/"><small></small></a></li>
+                                <li><a href="/faq/"><small></small></a></li>
 
                             </ul>
                         </nav>
@@ -44,7 +44,7 @@ class Faq extends Component {
                                 <div className="col is-9">
                                     <h3 className="has-text-weight-semibold margin--bottom">How can I start using Initials?</h3>
                                     <p>Please drop us a message to discuss on your requirements and we'll guide you for the next steps.</p>
-                                    <a className="sgds-button is-rounded is-medium is-secondary margin--top--lg" href="/general/coming-soon/">Tell us more</a>
+                                    <a className="sgds-button is-rounded is-medium is-secondary margin--top--lg" href="https://form.gov.sg/forms/govtech/5bd18e5c46209b000f56f3e0">Tell us more</a>
                                 </div>
                             </div>
                         </div>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import * as Cookies from 'js-cookie';
 
 class Sidebar extends Component {
 
     componentDidMount() {
         var currentPath = window.location.pathname;
         currentPath = currentPath.replace("/demo", "");
-        console.log(currentPath);
         if (currentPath.startsWith("/job") === true) {
             document.getElementById("idJob").classList.add("is-active");
         } else {
@@ -13,14 +13,21 @@ class Sidebar extends Component {
         }
     }
 
+    logout = (getToHome) => {
+        Cookies.remove("initialsdemo");
+        getToHome();
+    }
+
     render() {
+
+        const { getToHome } = this.props;
         return (
             <div>
                 <div className="sidenav" style={{ minHeight: '60vh' }}>
                     <aside className="sgds-menu sidebar__inner">
                         <ul className="sgds-menu-list">
                             <li>
-                                <a href="/docs/"
+                                <a href="/demo"
                                     className="is-uppercase has-text-weight-semibold is-active">
                                     General
                                 </a>
@@ -38,7 +45,7 @@ class Sidebar extends Component {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/docs/main-nav/"
+                                        <a href="/demo"
                                             className="padding--sm">
                                             <small>Activity</small>
                                         </a>
@@ -46,27 +53,33 @@ class Sidebar extends Component {
                                 </ul>
                             </li>
                             <li>
-                                <a href="/docs/"
+                                <a href="/demo"
                                     className="is-uppercase has-text-weight-semibold is-active">
                                     Account Setting
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="/docs/container/"
+                                        <a href="/demo"
                                             className="padding--sm">
                                             <small>Organization</small>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/docs/grid/"
+                                        <a href="/demo"
                                             className="padding--sm">
                                             <small>Account</small>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/docs/grid/"
+                                        <a href="/demo"
                                             className="padding--sm">
                                             <small>Usage</small>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onClick={() => this.logout(getToHome)}
+                                            className="padding--sm">
+                                            <small>Log out</small>
                                         </a>
                                     </li>
                                 </ul>

@@ -9,7 +9,7 @@ module.exports = {
             ]
         })
     },
-    createTemplate: function(file, component) {
+    createTemplate: function(file, component, name) {
         template.findOne({
             where: {
                 file: file
@@ -18,7 +18,8 @@ module.exports = {
             if (data === null) {
                 return template.create({
                     file: file,
-                    component: component
+                    component: component,
+                    createdBy: name
                 });
             } else {
                 return template.update({
