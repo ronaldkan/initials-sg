@@ -30,7 +30,7 @@ const UserRoute = ({ component: Component, ...rest }) => {
   }
   return (
     <Redirect to={{
-      pathname: '/demo/home',
+      pathname: '/',
     }}
     />
   );
@@ -75,7 +75,7 @@ class App extends Component {
         <Route path="/demo/sign/:uuid" exact component={UserSign} />
         <Route path="/demo/complete" exact component={UserComplete} />
         <UserRoute path="/demo/completed/:uuid" exact component={UserCompletedView} />
-        <Route path="/demo/home" exact component={UserLanding} />
+        {/* <Route path="/demo/home" exact component={UserLanding} /> */}
         <UserLoginRoute path="/demo/login" exact component={UserLogin} />
         <Route component={this.NoMatch} />
       </Switch>
