@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 var ejs = require('ejs');
 var fs = require('fs');
 
-var email = 'no.reply.signsg@gmail.com';
+var email = 'noreply.initials@gmail.com';
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
