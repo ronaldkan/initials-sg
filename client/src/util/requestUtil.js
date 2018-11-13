@@ -1,5 +1,5 @@
 import axios from 'axios';
-const url = process.env.url || "http://localhost:5000";
+const url = process.env.REACT_APP_BACKEND|| "http://localhost:5000";
 
 export function getUrl() {
     return url
