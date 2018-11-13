@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, notification } from 'antd';
+import { getRequest } from '../../util/requestUtil';
 import axios from 'axios';
 
 const FormItem = Form.Item;
@@ -22,9 +23,7 @@ class EditForm extends Component {
             if (!err) {
                 values["TemplateId"] = templateId;
                 values["data"] = "";
-                axios.get('http://localhost:5000/api/send', {
-                    params: values
-                }).then(response => response)
+                getRequest("/api/send", values).then(response => response)
                     .then(data => {
                         notification['success']({
                             message: 'Email sent!',

@@ -11,10 +11,12 @@ import BlankImage from '../../img/blank.jpg';
 import Logo from '../../img/logo_sgds.png';
 import Navbar from '../common/editNavbar';
 import Footer from '../../static/footer';
+import { getRequest, getUrl, postRequest } from '../../util/requestUtil';
 
 const { Header, Content, Sider } = Layout;
 const ButtonGroup = Button.Group;
 const shiftingRatio = 0.5;
+const url = getUrl();
 
 function MailBox(props) {
     const comp = props.componentList;
@@ -76,10 +78,10 @@ class Edit extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/template?fileName=${this.props.match.params.document}`)
+        getRequest(`/api/template?fileName=${this.props.match.params.document}`, {})
             .then(response => response.data)
             .then(data => {
-                this.setState({ url: `http://localhost:5000/api/file?fileName=${this.props.match.params.document}` });
+                this.setState({ url: `${url}/api/file?fileName=${this.props.match.params.document}` });
                 if (!data) {
                     return;
                 }
@@ -239,7 +241,7 @@ class Edit extends Component {
     saveTemplate = () => {
         var nextUrl = `/demo/view/${this.props.match.params.document}`;
         var historyProp = this.props.history;
-        axios.post('http://localhost:5000/api/save', {
+        postRequest('/api/save', {
             components: JSON.stringify(this.state.componentList),
             filename: this.props.match.params.document
         })

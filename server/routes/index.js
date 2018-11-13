@@ -66,9 +66,38 @@ router.get('/api/send', (req, res) => {
     });
 });
 
+// var generateFile = function (filename, uuid, data) {
+//     const myPath = path.join(__dirname, '../pdf/generated/' + uuid);
+//     const filePath = path.join(__dirname, '../pdf/' + filename);
+//     fs.mkdirSync(myPath);
+//     const pdfDoc = new HummusRecipe(filePath, myPath + "/attachment.pdf");
+//     data = JSON.parse(data);
+//     pdfDoc.editPage(1);
+//     for (var i = 0; i < data.length; i++) {
+//         var left = parseFloat(data[i].left.replace("%", ""));
+//         var top = parseFloat(data[i].top.replace("%", ""));
+//         var value = data[i].value;
+//         var height = pdfDoc.default.pageHeght * top / 100;
+//         var width = pdfDoc.default.pageWidth * left / 100;
+//         console.log(height);
+//         console.log(width);
+//         // pdfDoc.text(value, width, height, {
+//         //     fontSize: 12
+//         // });
+//     }
+//     pdfDoc.endPage();
+//     pdfDoc.endPDF();
+// }
+
+// router.get("/api/test1", (req, res) => {
+//     generateFile("abc", "abc", "b58c01cb-acfa-44aa-a08b-d9f80247ef3b");
+//     res.send({ result: 'success' });
+// });
+
 router.put('/api/job', (req, res) => {
-    console.log(req.body);
+    // generateFile(req.body.file, req.body.uuid, req.body.data);
     job.updateJobDataByUuid(req.body.uuid, req.body.data).then(data => {
+        smtpUtil.sendConfirmation(req.body.recipient);
         res.send(data);
     });
 });
@@ -97,9 +126,6 @@ router.get('/api/job/:uuid', (req, res) => {
         res.json(data);
     });
 });
-
-
-
 
 
 // API calls

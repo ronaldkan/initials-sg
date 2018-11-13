@@ -5,6 +5,7 @@ import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
 import { List, Button, Badge, Card } from 'antd';
+import { getRequest } from '../util/requestUtil';
 
 const documents = [
     {
@@ -34,7 +35,7 @@ class Job extends Component {
     }
 
     getJobs = () => {
-        axios.get('http://localhost:5000/api/job/all')
+        getRequest('/api/job/all', {})
             .then(response => response.data)
             .then(data => {
                 let myData = [];

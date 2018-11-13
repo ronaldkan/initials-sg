@@ -3,9 +3,10 @@ import axios from 'axios';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
+import { getRequest, getUrl } from '../util/requestUtil';
 import { List, Button, Upload, message, Icon } from 'antd';
 import * as Cookies from 'js-cookie';
-
+const url = getUrl();
 
 class Home extends Component {
 
@@ -17,7 +18,7 @@ class Home extends Component {
     }
 
     getDocuments = () => {
-        axios.get('http://localhost:5000/api/documents')
+        getRequest('/api/documents', {})
             .then(response => response.data)
             .then(data => {
                 let myData = [];
@@ -33,7 +34,7 @@ class Home extends Component {
 
     getUploadProps(getDocs) {
         return {
-            action: `http://localhost:5000/api/upload?name=${Cookies.get('initialsdemo')}`,
+            action: `${url}/api/upload?name=${Cookies.get('initialsdemo')}`,
             onChange({ file, fileList }) {
                 if (file.status === 'done') {
                     message.success(`${file.name} file uploaded successfully`);

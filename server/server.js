@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
+const url = process.env.FRONTEND || "http://localhost:3000";
 
 const index = require('./routes/index');
 const models = require('./models');
@@ -18,7 +19,7 @@ models.Job.sync().then(data => {
 
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', "http://localhost:3000");
+    res.setHeader('Access-Control-Allow-Origin', url);
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');

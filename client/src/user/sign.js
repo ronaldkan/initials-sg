@@ -9,8 +9,10 @@ import { Document, Page } from 'react-pdf';
 import html2canvas from 'html2canvas';
 import { SketchField, Tools } from 'react-sketch';
 import BlankImage from '../img/blank.jpg';
+import { getRequest, getUrl, putRequest } from '../util/requestUtil';
 
 const { Content } = Layout;
+const url = getUrl();
 
 function MailBox(props) {
     const comp = props.componentList;
@@ -51,15 +53,17 @@ class Sign extends Component {
             numPages: null,
             showPopup: false,
             componentList: [],
-            templateId: null
+            templateId: null,
+            recipient: null
         };
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/job/${this.props.match.params.uuid}`)
+        getRequest(`/api/job/${this.props.match.params.uuid}`, {})
             .then(response => response.data)
             .then(data => {
-                this.setState({ url: `http://localhost:5000/api/file?fileName=${data.Template.file}` });
+                console.log(data);
+                this.setState({ url: `${url}/api/file?fileName=${data.Template.file}`,  recipient: data.recipient, file: data.Template.file } );
                 if (!data.Template) {
                     return;
                 }
@@ -104,9 +108,11 @@ class Sign extends Component {
         }
         var params = {
             "uuid": this.props.match.params.uuid,
-            "data": JSON.stringify(data)
+            "data": JSON.stringify(data),
+            recipient: this.state.recipient,
+            file: this.state.file
         }
-        axios.put('http://localhost:5000/api/job', params).then(data => {
+        putRequest('/api/job', params).then(data => {
             this.props.history.push('/demo/complete');
         });
     }

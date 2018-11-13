@@ -5,8 +5,11 @@ import Footer from '../static/footer';
 
 import { Layout, Input } from 'antd';
 import { Document, Page } from 'react-pdf';
+import { getRequest, getUrl } from '../util/requestUtil';
 
 const { Content } = Layout;
+const url = getUrl();
+
 
 function MailBox(props) {
     const comp = props.componentList;
@@ -53,10 +56,10 @@ class View extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/job/${this.props.match.params.uuid}`)
+        getRequest(`/api/job/${this.props.match.params.uuid}`, {})
             .then(response => response.data)
             .then(data => {
-                this.setState({ url: `http://localhost:5000/api/file?fileName=${data.Template.file}` });
+                this.setState({ url: `${url}/api/file?fileName=${data.Template.file}` });
                 if (!data.Template) {
                     return;
                 }

@@ -4,12 +4,14 @@ import DefaultNavbar from '../../static/defaultNavbar';
 import Footer from '../../static/footer';
 import EditForm from '../form/editForm';
 
+import { getRequest, getUrl } from '../../util/requestUtil';
 import { Layout, Input, Button, Popover, notification } from 'antd';
 import { Document, Page } from 'react-pdf';
 import BlankImage from '../../img/blank.jpg';
 
 const { Content, Sider } = Layout;
 const ButtonGroup = Button.Group;
+const url = getUrl();
 
 function MailBox(props) {
     const comp = props.componentList;
@@ -56,10 +58,10 @@ class View extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/template?fileName=${this.props.match.params.document}`)
+        getRequest(`/api/template?fileName=${this.props.match.params.document}`, {})
             .then(response => response.data)
             .then(data => {
-                this.setState({ url: `http://localhost:5000/api/file?fileName=${this.props.match.params.document}` });
+                this.setState({ url: `${url}/api/file?fileName=${this.props.match.params.document}` });
                 if (!data) {
                     return;
                 }

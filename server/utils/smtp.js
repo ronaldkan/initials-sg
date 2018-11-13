@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var ejs = require('ejs');
+var path = require('path');
 var fs = require('fs');
 
 var email = 'noreply.initials@gmail.com';
@@ -23,6 +24,37 @@ module.exports = {
             name: params.name,
             message: params.message,
             url: params.url
+            // attachments: [
+            //     {   // file on disk as an attachment
+            //         filename: 'attachment.pdf',
+            //         path: path.join(__dirname, '../pdf/nda.pdf')
+            //     }]
+            // message: "As part of the event at GovTech Hive, participants are required to sign an Non-Disclosure Agreement prior to attending the event. Thank you and we hope to seek your kind understanding."
+        };
+
+        mailOptions.html = compiled(mailOptions)
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    },
+    sendConfirmation: function (to) {
+        var filePath = __dirname + '/confirmation.ejs';
+        var compiled = ejs.compile(fs.readFileSync(filePath, 'utf8'));
+
+        var mailOptions = {
+            from: "hello@initial.sg",
+            to: to,
+            subject: "Completion on Initials",
+            attachments: [
+                {   // file on disk as an attachment
+                    filename: 'completed.pdf',
+                    path: path.join(__dirname, '../pdf/completed.pdf')
+                }]
             // message: "As part of the event at GovTech Hive, participants are required to sign an Non-Disclosure Agreement prior to attending the event. Thank you and we hope to seek your kind understanding."
         };
 

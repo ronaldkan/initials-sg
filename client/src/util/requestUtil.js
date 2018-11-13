@@ -1,0 +1,20 @@
+import axios from 'axios';
+const url = process.env.url || "http://localhost:5000";
+
+export function getUrl() {
+    return url
+} 
+
+export function getRequest(path, data) {
+    return axios.get(url + path, {
+        params: data
+    })
+}
+
+export function putRequest(path, data) {
+    return axios.put(url + path, data)
+}
+
+export function postRequest(path, data) {
+    return axios.post(url + path, data)
+}
