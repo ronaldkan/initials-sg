@@ -11,7 +11,7 @@ const smtpUtil = require('../utils/smtp');
 var folderPath = path.join(__dirname, '../pdf/');
 var template = require('../services/template');
 var job = require('../services/job');
-
+const url = process.env.FRONTEND || "http://localhost:3000";
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../pdf'),
@@ -60,7 +60,7 @@ router.post('/api/save', (req, res) => {
 router.get('/api/send', (req, res) => {
     var info = req.query;
     job.createJob(info.to, info.subject, info.subject, info.TemplateId, info.data).then(function (data) {
-        info["url"] = "http://localhost:3000/demo/sign/" + data.uuid;
+        info["url"] = url +  "/demo/sign/" + data.uuid;
         smtpUtil.sendEmail(info);
         res.send({ result: 'success' });
     });
@@ -121,7 +121,6 @@ router.get('/api/job/all', (req, res) => {
 });
 
 router.get('/api/job/:uuid', (req, res) => {
-    console.log(req.params.uuid);
     job.getJobByUuid(req.params.uuid).then(data => {
         res.json(data);
     });
