@@ -18,6 +18,7 @@ module.exports = {
             data: data,
             subject: subject,
             message: message,
+            iscompleted: false,
             TemplateId: templateId,
         });
     },
@@ -33,7 +34,8 @@ module.exports = {
     },
     updateJobDataByUuid: function(uuid, data) {
         return job.update({
-            data: data
+            data: data,
+            iscompleted: true
         }, {
             where: {
                 uuid: uuid

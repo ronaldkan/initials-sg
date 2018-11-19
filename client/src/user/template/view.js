@@ -19,9 +19,9 @@ function MailBox(props) {
         let theComp;
         if (c.type === 'text') {
             theComp = <Input
+                className='sendinput'
                 onClick={()=>props.clickInput(c.id)}
                 id={c.id}
-                value={""}
                 style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
             />;
         } else if (c.type === 'sign') {

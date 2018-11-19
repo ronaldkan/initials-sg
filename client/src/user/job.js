@@ -78,16 +78,16 @@ class Job extends Component {
                                         pageSize: 9,
                                     }}
                                     renderItem={item => (
-                                        item.element.data ?
+                                        item.element.iscompleted ?
                                             <List.Item>
                                                 <Card title={item.element.Template.file} extra={<div><Badge style={{ backgroundColor: "#b0a13c" }} count={"Completed"} /> | <a href={`/demo/completed/${item.element.uuid}`} target='_blank'>View</a></div>}>
-                                                    <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.element.message}<br></br>{item.date}<br></br></div>
+                                                    <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.element.message}<br></br>{item.date}<br></br><br></br><Button className="sgds-button is-rounded is-secondary" type="primary">Download</Button></div>
                                                 </Card>
                                             </List.Item>
                                             :
                                             <List.Item>
                                                 <Card title={item.element.Template.file} extra={<Badge count={"Pending"} />}>
-                                                    <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.element.message}<br></br>{item.date}</div>
+                                                    <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.element.message}<br></br>{item.date}<br></br><br></br><Button style={{ backgroundColor: '#f5222d' }} className="sgds-button is-rounded is-secondary" type="primary">Cancel</Button></div>
                                                 </Card>
                                             </List.Item>
                                     )}

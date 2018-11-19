@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     data: DataTypes.JSONB,
     subject: DataTypes.STRING,
     message: DataTypes.STRING,
+    iscompleted: DataTypes.BOOLEAN,
+    iscancelled: DataTypes.BOOLEAN,
     uuid: { 
       type:DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4

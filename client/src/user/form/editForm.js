@@ -21,8 +21,15 @@ class EditForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                var data = {};
+                var list = document.getElementsByClassName('sendinput');
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].value !== "") {
+                        data[list[i].id] = list[i].value;
+                    }
+                }
                 values["TemplateId"] = templateId;
-                values["data"] = "";
+                values["data"] = JSON.stringify(data);
                 getRequest("/api/send", values).then(response => response)
                     .then(data => {
                         notification['success']({

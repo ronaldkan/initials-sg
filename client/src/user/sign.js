@@ -18,9 +18,17 @@ function MailBox(props) {
     const comp = props.componentList;
     const test = comp.map((c, i) => {
         let theComp;
-        if (c.type === 'text') {
+        if (c.type === 'text' && !c.value) {
             theComp = <Input
                 id={c.id}
+                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+            />;
+        } else if (c.type === 'text' && c.value) {
+            theComp = <Input
+                readOnly
+                className="completedInput"
+                id={c.id}
+                value={c.value}
                 style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
             />;
         } else if (c.type === 'sign') {
@@ -62,12 +70,19 @@ class Sign extends Component {
         getRequest(`/api/job/${this.props.match.params.uuid}`, {})
             .then(response => response.data)
             .then(data => {
-                console.log(data);
-                this.setState({ url: `${url}/api/file?fileName=${data.Template.file}`,  recipient: data.recipient, file: data.Template.file } );
+                this.setState({ url: `${url}/api/file?fileName=${data.Template.file}`, recipient: data.recipient, file: data.Template.file });
                 if (!data.Template) {
                     return;
                 }
                 let componentList = JSON.parse(data.Template.component);
+                let dataList = JSON.parse(data.data);
+                var list = document.getElementsByClassName('ant-input');
+                for (var i = 0; i < componentList.length; i++) {
+                    if (dataList.hasOwnProperty(componentList[i].id)) {
+                        componentList[i].value = dataList[componentList[i].id];
+                    }
+                }
+                console.log(componentList);
                 this.setState({ componentList: componentList });
             });
 
