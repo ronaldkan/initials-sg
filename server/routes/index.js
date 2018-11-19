@@ -59,7 +59,7 @@ router.post('/api/save', (req, res) => {
 
 router.get('/api/send', (req, res) => {
     var info = req.query;
-    job.createJob(info.to, info.subject, info.subject, info.TemplateId, info.data).then(function (data) {
+    job.createJob(info.to, info.subject, info.message, info.TemplateId, info.data).then(function (data) {
         info["url"] = url +  "/demo/sign/" + data.uuid;
         smtpUtil.sendEmail(info);
         res.send({ result: 'success' });
