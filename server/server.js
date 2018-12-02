@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
-const url = process.env.FRONTEND || "http://localhost:3001";
+const url = process.env.FRONTEND || "http://localhost:3000";
 
 const index = require('./routes/index');
 const models = require('./models');

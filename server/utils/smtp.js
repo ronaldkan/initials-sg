@@ -42,7 +42,7 @@ module.exports = {
             }
         });
     },
-    sendConfirmation: function (to) {
+    sendConfirmation: function (to, filepath) {
         var filePath = __dirname + '/confirmation.ejs';
         var compiled = ejs.compile(fs.readFileSync(filePath, 'utf8'));
 
@@ -53,7 +53,7 @@ module.exports = {
             attachments: [
                 {   // file on disk as an attachment
                     filename: 'completed.pdf',
-                    path: path.join(__dirname, '../pdf/completed.pdf')
+                    path: filepath
                 }]
             // message: "As part of the event at GovTech Hive, participants are required to sign an Non-Disclosure Agreement prior to attending the event. Thank you and we hope to seek your kind understanding."
         };

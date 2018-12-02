@@ -22,10 +22,12 @@ module.exports = {
             TemplateId: templateId,
         });
     },
-    getJobByUuid: function(uuid) {
+    getJobByUuid: function(uuid, completed) {
         return job.findOne({
             where: {
-                uuid: uuid
+                uuid: uuid,
+                iscompleted: completed,
+                iscancelled: false
             },
             include: [{
                 model: models.Template
@@ -36,6 +38,15 @@ module.exports = {
         return job.update({
             data: data,
             iscompleted: true
+        }, {
+            where: {
+                uuid: uuid
+            }
+        })
+    },
+    cancelJobDataByUuid: function(uuid) {
+        return job.update({
+            iscancelled: true
         }, {
             where: {
                 uuid: uuid
