@@ -233,8 +233,7 @@ router.get('/api/sign/:uuid', (req, res) => {
     job.getJobByUuid(uuid, false).then(data => {
         if (data.phone && !data.pin) {
             securePin.generatePin(6, (pin) => {
-                console.log("Pin: " + pin);
-                job.updateJobPinByUuid(uuid, pin).then(resp => {
+                job.updateJobPinByUuid(uuid, pin.toString()).then(resp => {
                     client.messages
                         .create({ from: 'InitialsSG', body: 'Your Initials One-Time PIN is ' + pin + ". It will expire in 2 minutes.", to: data.phone})
                         .then(message => console.log(message.sid))

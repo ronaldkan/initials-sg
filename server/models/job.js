@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     iscompleted: DataTypes.BOOLEAN,
     iscancelled: DataTypes.BOOLEAN,
     phone: DataTypes.STRING,
-    pin: DataTypes.INTEGER,
+    pin: DataTypes.STRING,
     uuid: { 
       type:DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
