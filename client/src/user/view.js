@@ -90,7 +90,7 @@ class View extends Component {
                             onLoadSuccess={this.onDocumentLoadSuccess}
                         >
                             <MailBox componentList={componentList} clickMe={this.clickMe} />
-                            <Page renderAnnotations={false} renderMode={"svg"} renderTextLayer={false} pageNumber={pageNumber} scale={1} />
+                            <Page renderAnnotations={false} renderTextLayer={false} pageNumber={pageNumber} scale={1} />
                         </Document>
                     </Content>
                 </Layout>

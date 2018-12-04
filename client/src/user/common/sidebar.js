@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 
 class Sidebar extends Component {
@@ -33,22 +34,22 @@ class Sidebar extends Component {
                                 </a>
                                 <ul>
                                     <li>
-                                        <a id="idTemplate" href="/demo"
+                                        <Link id="idTemplate" to="/demo"
                                             className="padding--sm">
                                             <small>Template</small>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a id="idJob" href="/demo/job"
+                                        <Link id="idJob" to="/demo/job"
                                             className="padding--sm">
                                             <small>Job</small>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="/demo"
+                                        <Link to="/demo"
                                             className="padding--sm">
                                             <small>Activity</small>
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             </li>
@@ -59,22 +60,22 @@ class Sidebar extends Component {
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="/demo"
+                                        <Link to="/demo"
                                             className="padding--sm">
                                             <small>Organization</small>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="/demo"
+                                        <Link to="/demo"
                                             className="padding--sm">
                                             <small>Account</small>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="/demo"
+                                        <Link to="/demo"
                                             className="padding--sm">
                                             <small>Usage</small>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
                                         <a onClick={() => this.logout(getToHome)}

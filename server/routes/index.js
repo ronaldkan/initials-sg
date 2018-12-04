@@ -13,6 +13,13 @@ var folderPath = path.join(__dirname, '../pdf/');
 var template = require('../services/template');
 var job = require('../services/job');
 var rimraf = require('rimraf');
+var QRCode = require('qrcode');
+var md5File = require('md5-file');
+var securePin = require("secure-pin");
+
+const accountSid = 'AC6f83c82769898deb5ca92f1ab7e0ab25';
+const authToken = '08ac8dbba600fd0d4ea20ebc69569ac1';
+const client = require('twilio')(accountSid, authToken);
 
 const url = process.env.FRONTEND || "http://localhost:3000";
 
@@ -36,11 +43,31 @@ router.post('/api/upload', upload.single('file'), (req, res) => {
     res.send({ result: 'success' });
 });
 
+router.get('/api/test1', (req, res) => {
+    // client.messages
+    //   .create({from: 'Initials', body: 'hello there', to: '+6594354042'})
+    //   .then(message => console.log(message.sid))
+    //   .done();
+    // const filePath = path.join(__dirname, '../pdf/generated/ac31a4a6-a5fa-408e-9257-3cb6a3ef82b3/attachment.pdf');
+    // md5File(filePath, (err, hash) => {
+    //     console.log(hash);
+    //     res.send({ result: 'success' });
+    // });
+    // var pdf = new HummusRecipe(filePath, path.join(__dirname, '../pdf/completed1.pdf'));
+    // console.log(pdf.metadata);
+    // res.send({ result: 'success' });
+    securePin.generatePin(6, (pin) => {
+        console.log("Pin: " + pin);
+        res.send({ result: 'success' });
+    })
+});
+
 router.get('/api/documents', (req, res) => {
     template.getAll().then(data => {
         res.json(data);
     });
 });
+
 
 router.get('/api/file', (req, res) => {
     var fileName = req.query.fileName;
@@ -54,18 +81,35 @@ router.get('/api/template', (req, res) => {
     });
 });
 
+router.post('/api/pin', (req, res) => {
+    var info = req.body;
+    job.getJobByUuid(info.uuid, false).then(data => {
+        if (data.pin.toString() === info.pin) {
+            res.send({ result: 1 });
+        } else {
+            res.send({ result: 0 });
+        }
+    });
+});
+
 router.post('/api/save', (req, res) => {
     template.updateTemplate(req.body.filename, req.body.components).then(function (data) {
-        res.send({ result: 'success' })
+        res.send({ result: 'success' });
     });
 });
 
 router.get('/api/send', (req, res) => {
     var info = req.query;
-    job.createJob(info.to, info.subject, info.message, info.TemplateId, info.data).then(function (data) {
+    if (info.phone) {
+        info.phone = "+65" + info.phone;
+    }
+    job.createJob(info.to, info.subject, info.message, info.TemplateId, info.data, info.phone).then(function (data) {
         info["url"] = url + "/demo/sign/" + data.uuid;
-        smtpUtil.sendEmail(info);
-        res.send({ result: 'success' });
+        QRCode.toDataURL(info["url"], function (err, url1) {
+            info["qrcode"] = url1;
+            smtpUtil.sendEmail(info);
+            res.send({ result: 'success' });
+        })
     });
 });
 
@@ -122,7 +166,11 @@ var generateFile = function (data, res, confirmation, receipient) {
             pdfDoc.endPage();
             pdfDoc.endPDF();
             if (confirmation === true) {
-                smtpUtil.sendConfirmation(receipient, myPath + "/attachment.pdf");
+                var confirmationFilePath = myPath + "/attachment.pdf";
+                smtpUtil.sendConfirmation(receipient, confirmationFilePath);
+                md5File(confirmationFilePath, (err, hash) => {
+                    job.updateJobCompletedHashByUuid(data.uuid, hash);
+                });
             } else {
                 // TODO add for more than one files
                 res.zip([
@@ -181,7 +229,19 @@ router.get('/api/job/:uuid', (req, res) => {
 });
 
 router.get('/api/sign/:uuid', (req, res) => {
-    job.getJobByUuid(req.params.uuid, false).then(data => {
+    var uuid = req.params.uuid;
+    job.getJobByUuid(uuid, false).then(data => {
+        if (data.phone && !data.pin) {
+            securePin.generatePin(6, (pin) => {
+                console.log("Pin: " + pin);
+                job.updateJobPinByUuid(uuid, pin).then(resp => {
+                    client.messages
+                        .create({ from: 'InitialsSG', body: 'Your Initials One-Time PIN is ' + pin + ". It will expire in 2 minutes.", to: data.phone})
+                        .then(message => console.log(message.sid))
+                        .done();
+                });
+            })
+        }
         res.json(data);
     });
 });

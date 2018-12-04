@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Logo from '../img/logo_sgds.png';
 import HowImage from '../img/img_howitworks.png';
 import Navbar from './navbar';
 import Footer from './footer';
@@ -131,7 +130,7 @@ class Home extends Component {
                             <div className="row has-text-centered">
                                 <div className="col is-10 is-offset-1">
                                     <p className="has-text-white padding--bottom--lg">Initials aims to be the electronic signature platform with the security to protect your agencies' documents. We will maintain regular updates and open so it will be a living, continually evolving set of tools.</p>
-                                    <a className="sgds-button is-rounded is-medium" href="https://form.gov.sg/forms/govtech/5bd18e5c46209b000f56f3e0" target="_blank">Let's Connect</a>
+                                    <a className="sgds-button is-rounded is-medium" href="https://form.gov.sg/forms/govtech/5bd18e5c46209b000f56f3e0" target="_blank" >Let's Connect</a>
                                 </div>
                             </div>
                         </div>

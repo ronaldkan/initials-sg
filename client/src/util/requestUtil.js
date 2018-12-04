@@ -7,7 +7,14 @@ export function getUrl() {
 
 export function getRequest(path, data) {
     return axios.get(url + path, {
-        params: data
+        params: data,
+    })
+}
+
+export function getBlobRequest(path, data) {
+    return axios.get(url + path, {
+        params: data,
+        responseType: 'blob'
     })
 }
 

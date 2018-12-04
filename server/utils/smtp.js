@@ -23,12 +23,12 @@ module.exports = {
             subject: params.subject,
             name: params.name,
             message: params.message,
-            url: params.url
-            // attachments: [
-            //     {   // file on disk as an attachment
-            //         filename: 'attachment.pdf',
-            //         path: path.join(__dirname, '../pdf/nda.pdf')
-            //     }]
+            url: params.url,
+            attachments: [
+                {   // file on disk as an attachment
+                    path: params.qrcode,
+                    cid: "myqr"
+                }]
             // message: "As part of the event at GovTech Hive, participants are required to sign an Non-Disclosure Agreement prior to attending the event. Thank you and we hope to seek your kind understanding."
         };
 

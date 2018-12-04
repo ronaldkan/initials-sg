@@ -55,6 +55,11 @@ class EditForm extends Component {
                         <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="initials@initials.sg" />,
                     )}
                 </FormItem>
+                <FormItem label="Phone Number (secure mode)">
+                    {getFieldDecorator('phone', )(
+                        <Input addonBefore="+65" />,
+                    )}
+                </FormItem>
                 <FormItem label="Recipient Name">
                     {getFieldDecorator('name', {
                         rules: [{ required: true, message: "Please enter the recipient's name" }],

@@ -219,8 +219,8 @@ svg {
   z-index: 999999;
 }
 
-canvas {
-  border-style: dotted dotted;
+.canvas-container {
+  border-style: dotted dotted !important;
 }
 
 .noBorder {

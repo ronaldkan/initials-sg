@@ -12,14 +12,16 @@ module.exports = {
             }]
         })
     },
-    createJob: function(to, subject, message, templateId, data) {
+    createJob: function(to, subject, message, templateId, data, phone) {
         return job.create({
             recipient: to,
             data: data,
             subject: subject,
             message: message,
             iscompleted: false,
+            iscancelled: false,
             TemplateId: templateId,
+            phone: phone
         });
     },
     getJobByUuid: function(uuid, completed) {
@@ -52,5 +54,23 @@ module.exports = {
                 uuid: uuid
             }
         })
-    }
+    },
+    updateJobCompletedHashByUuid: function(uuid, hash) {
+        return job.update({
+            completedhash: hash
+        }, {
+            where: {
+                uuid: uuid
+            }
+        })
+    },
+    updateJobPinByUuid: function(uuid, pin) {
+        return job.update({
+            pin: pin
+        }, {
+            where: {
+                uuid: uuid
+            }
+        })
+    },
 };

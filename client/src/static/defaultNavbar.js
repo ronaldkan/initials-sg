@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../img/logo_sgds.png';
 
 class DefaultNavbar extends Component {
@@ -21,9 +22,9 @@ class DefaultNavbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <a className="navbar-item" href="/demo">
+                            <Link className="navbar-item" to="/demo">
                                 <img src={Logo} alt="" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </nav>

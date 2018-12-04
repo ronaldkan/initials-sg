@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 class Footer extends Component {
 
     render() {
@@ -42,8 +42,8 @@ class Footer extends Component {
                         <div className="row is-vcentered divider">
                             <div className="col footer-col">
                                 <ul>
-                                    <li><a href="/general/privacy">Privacy Statement</a></li>
-                                    <li><a href="/general/terms">Terms of Use</a></li>
+                                    <li><Link to="/general/privacy">Privacy Statement</Link></li>
+                                    <li><Link to="/general/terms">Terms of Use</Link></li>
                                 </ul>
                             </div>
                             <div className="col footer-col has-text-right-desktop has-text-right-tablet has-text-left-mobile">

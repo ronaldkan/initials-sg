@@ -184,7 +184,6 @@ class Edit extends Component {
     }
 
     shiftDown = (id, type) => {
-        console.log('hello');
         if (!id) {
             return;
         }
@@ -282,7 +281,7 @@ class Edit extends Component {
                                     cancelPopUp={this.cancelPopUp}
                                     addSignField={this.addSignField}
                                 /> : null}
-                            <Page renderAnnotations={false} renderMode={"svg"} renderTextLayer={false} pageNumber={pageNumber} scale={1} />
+                            <Page renderAnnotations={false} renderTextLayer={false} pageNumber={pageNumber} scale={1} />
                         </Document>
                     </Content>
                 </Layout>

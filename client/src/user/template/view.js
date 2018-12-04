@@ -103,7 +103,7 @@ class View extends Component {
                                     onLoadSuccess={this.onDocumentLoadSuccess}
                                 >
                                     <MailBox componentList={componentList} clickInput={this.clickInput}/>
-                                    <Page renderAnnotations={false} renderMode={"svg"} renderTextLayer={false} pageNumber={pageNumber} scale={1}>
+                                    <Page renderAnnotations={false} renderTextLayer={false} pageNumber={pageNumber} scale={1}>
                                     </Page>
                                 </Document>
                             </Content>

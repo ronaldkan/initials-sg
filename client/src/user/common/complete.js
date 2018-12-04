@@ -9,7 +9,7 @@ class Complete extends Component {
             <div className="App">
                 <Navbar />
                 <div class="sgds-container">
-                    <div class="row" style={{ minHeight: '60vh', marginTop: '25px' }}>
+                    <div class="row" style={{ minHeight: '60vh', marginTop: '15vh' }}>
                         <div class="col is-half is-offset-one-quarter">
                             <div class="content has-text-centered">
                                 <h3>Complete!</h3>

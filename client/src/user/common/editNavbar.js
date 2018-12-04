@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../../img/logo_sgds.png';
 
 class EditNavbar extends Component {
@@ -23,9 +24,9 @@ class EditNavbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <a className="navbar-item" href="/demo">
+                            <Link className="navbar-item" to="/demo">
                                 <img src={Logo} alt="" />
-                            </a>
+                            </Link>
                             <div id="mobileMain" className="navbar-burger burger" data-target="navbarMain" onClick={this.mobileMenu}>
                                 <span></span>
                                 <span></span>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../img/logo_sgds.png';
 
 class Navbar extends Component {
@@ -43,9 +44,9 @@ class Navbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <a className="navbar-item" href="/">
+                            <Link className="navbar-item" to="/">
                                 <img src={Logo} alt="" />
-                            </a>
+                            </Link>
                             <div id="mobileMain" className="navbar-burger burger" data-target="navbarMain" onClick={this.mobileMenu}>
                                 <span></span>
                                 <span></span>
@@ -55,13 +56,13 @@ class Navbar extends Component {
                         <div id="navbarMain" className="navbar-menu" >
                             <div className="navbar-item is-hidden-desktop">
                             </div>
-                            <div className="navbar-item is-stretched"><a id="aboutNav" className="navbar-link is-uppercase" href="/about">
+                            <div className="navbar-item is-stretched"><Link id="aboutNav" className="navbar-link is-uppercase" to="/about">
                                 <h6>About</h6>
-                            </a>
+                            </Link>
                             </div>
-                            <div className="navbar-item is-stretched"><a id="faqNav" className="navbar-link is-uppercase " href="/faq">
+                            <div className="navbar-item is-stretched"><Link id="faqNav" className="navbar-link is-uppercase " to="/faq">
                                 <h6>FAQs</h6>
-                            </a>
+                            </Link>
                             </div>
                         </div>
                         <div className="navbar-end is-hidden-touch">

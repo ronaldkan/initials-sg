@@ -7,10 +7,13 @@ module.exports = (sequelize, DataTypes) => {
     message: DataTypes.STRING,
     iscompleted: DataTypes.BOOLEAN,
     iscancelled: DataTypes.BOOLEAN,
+    phone: DataTypes.STRING,
+    pin: DataTypes.INTEGER,
     uuid: { 
       type:DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
-    }
+    },
+    completedhash: DataTypes.STRING
   }, {
     paranoid: true
   });
