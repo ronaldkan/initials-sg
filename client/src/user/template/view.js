@@ -3,12 +3,11 @@ import axios from 'axios';
 import DefaultNavbar from '../../static/defaultNavbar';
 import Footer from '../../static/footer';
 import EditForm from '../form/editForm';
-
+import { getDecryptedJwt } from '../../util/jwtUtil';
 import { getRequest, getUrl } from '../../util/requestUtil';
 import { Layout, Input, Button, Popover, notification } from 'antd';
 import { Document, Page } from 'react-pdf';
 import BlankImage from '../../img/blank.jpg';
-
 const { Content, Sider } = Layout;
 const ButtonGroup = Button.Group;
 const url = getUrl();
@@ -61,7 +60,12 @@ class View extends Component {
         getRequest(`/api/template?fileName=${this.props.match.params.document}`, {})
             .then(response => response.data)
             .then(data => {
-                this.setState({ url: `${url}/api/file?fileName=${this.props.match.params.document}` });
+                this.setState({ url: {
+                    url: `${url}/api/file?fileName=${this.props.match.params.document}`,
+                    httpHeaders: {
+                        'Authorization': `Bearer ${getDecryptedJwt()}`
+                    }
+                }});
                 if (!data) {
                     return;
                 }

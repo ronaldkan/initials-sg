@@ -3,6 +3,7 @@ import axios from 'axios';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
+import { getUserIdFromJwt } from '../util/jwtUtil';
 import { getRequest, getUrl } from '../util/requestUtil';
 import { List, Button, Upload, message, Icon } from 'antd';
 import * as Cookies from 'js-cookie';
@@ -34,7 +35,7 @@ class Home extends Component {
 
     getUploadProps(getDocs) {
         return {
-            action: `${url}/api/upload?name=${Cookies.get('initialsdemo')}`,
+            action: `${url}/api/upload?name=${getUserIdFromJwt()}`,
             onChange({ file, fileList }) {
                 if (file.status === 'done') {
                     message.success(`${file.name} file uploaded successfully`);

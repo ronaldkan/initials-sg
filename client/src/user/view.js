@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
-
+import { getDecryptedJwt } from '../util/jwtUtil';
 import { Layout, Input } from 'antd';
 import { Document, Page } from 'react-pdf';
 import { getRequest, getUrl } from '../util/requestUtil';
@@ -21,7 +21,7 @@ function MailBox(props) {
                 id={c.id}
                 value={c.value}
                 style={{ position: 'absolute', left: `${c.left}`, top: `${c.top}`, zIndex: 99, width: `${c.width}`, fontSize: '20px' }}
-            readonly/>;
+                readonly />;
         } else {
             theComp = <img src={c.src}
                 className='noBorder'
@@ -59,7 +59,14 @@ class View extends Component {
         getRequest(`/api/job/${this.props.match.params.uuid}`, {})
             .then(response => response.data)
             .then(data => {
-                this.setState({ url: `${url}/api/file?fileName=${data.Template.file}` });
+                this.setState({
+                    url: {
+                        url: `${url}/api/file?fileName=${data.Template.file}`,
+                        httpHeaders: {
+                            'Authorization': `Bearer ${getDecryptedJwt()}`
+                        }
+                    }
+                });
                 if (!data.Template) {
                     return;
                 }

@@ -8,6 +8,7 @@ import jspdf from 'jspdf';
 import { Layout, Input, Button, notification, Modal, Row } from 'antd';
 import { Document, Page } from 'react-pdf';
 import html2canvas from 'html2canvas';
+import { getDecryptedJwt } from '../util/jwtUtil';
 import { SketchField, Tools } from 'react-sketch';
 import BlankImage from '../img/blank.jpg';
 import { getRequest, getUrl, putRequest } from '../util/requestUtil';
@@ -35,7 +36,7 @@ function MailBox(props) {
         } else if (c.type === 'sign') {
             theComp = <img src={BlankImage}
                 className='signBox'
-                onClick={props.clickMe}
+                onClick={() => props.clickMe(c.id)}
                 id={c.id}
                 alt='blank'
                 style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
@@ -66,7 +67,8 @@ class Sign extends Component {
             recipient: null,
             authorized: false,
             secured: false,
-            uuid : null
+            uuid: null,
+            currentImageBox: null
         };
     }
 
@@ -84,7 +86,14 @@ class Sign extends Component {
                     );
                     return;
                 }
-                this.setState({ url: `${url}/api/file?fileName=${data.Template.file}`, recipient: data.recipient, file: data.Template.file });
+                this.setState({
+                    url: {
+                        url: `${url}/api/file?fileName=${data.Template.file}`,
+                        httpHeaders: {
+                            'Authorization': `Bearer ${getDecryptedJwt()}`
+                        }
+                    }, recipient: data.recipient, file: data.Template.file
+                });
                 if (!data.Template) {
                     return;
                 }
@@ -149,10 +158,12 @@ class Sign extends Component {
     }
 
     handleOk = (e) => {
-        document.getElementsByClassName("signBox")[0].src = this._sketch.toDataURL();
+        document.getElementById(this.state.currentImageBox).src = this._sketch.toDataURL();
         this.setState({
             visible: false,
+            currentImageBox: null
         });
+        this._sketch.clear();
     }
 
     handleCancel = (e) => {
@@ -166,9 +177,10 @@ class Sign extends Component {
     }
 
 
-    clickMe = () => {
+    clickMe = (id) => {
         this.setState({
             visible: true,
+            currentImageBox: id
         });
     }
 

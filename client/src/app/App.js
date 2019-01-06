@@ -17,6 +17,7 @@ import UserJob from '../user/job';
 import UserSign from '../user/sign';
 import UserComplete from '../user/common/complete';
 import UserCompletedView from '../user/view';
+import UserAccount from '../user/account';
 
 const cookieName = 'initialsdemo';
 const UserRoute = ({ component: Component, ...rest }) => {
@@ -72,6 +73,7 @@ class App extends Component {
         <UserRoute path="/demo/job" exact component={UserJob} />
         <UserRoute path="/demo/edit/:document" exact component={UserEdit} />
         <UserRoute path="/demo/view/:document" exact component={UserView} />
+        <UserRoute path="/demo/account" exact component={UserAccount} />
         <Route path="/demo/sign/:uuid" exact component={UserSign} />
         <Route path="/demo/complete" exact component={UserComplete} />
         <UserRoute path="/demo/completed/:uuid" exact component={UserCompletedView} />

@@ -66,7 +66,7 @@ class Sidebar extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/demo"
+                                        <Link to="/demo/account"
                                             className="padding--sm">
                                             <small>Account</small>
                                         </Link>

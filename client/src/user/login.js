@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Spin, Input, Icon, Button } from 'antd';
 import * as Cookies from 'js-cookie';
+import { postRequest } from '../util/requestUtil'; 
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 
@@ -15,8 +16,14 @@ class Login extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                Cookies.set("initialsdemo", values.username, { expires: 1 });
-                this.props.history.push('/demo');
+                postRequest('/api/login', values).then(resp => {
+                    if (resp.status === 200) {
+                        Cookies.set("initialsdemo", resp.data.token, { expires: 1/24 });
+                        this.props.history.push('/demo');
+                    } else {
+                        
+                    }
+                });
             }
         });
     }
@@ -39,7 +46,7 @@ class Login extends Component {
 
                                     <Form onSubmit={this.handleSubmit} className="login-form">
                                         <FormItem>
-                                            {getFieldDecorator('username', {
+                                            {getFieldDecorator('email', {
                                                 rules: [{ required: true, message: 'Please input your Username!' }],
                                             })(
                                                 <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />,
