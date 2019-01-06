@@ -5,18 +5,22 @@ var fs = require('fs');
 var path = require('path');
 const multer = require('multer');
 const HummusRecipe = require('hummus-recipe');
-var zip = require('express-zip');
 var imageDataURI = require('image-data-uri');
-
+var jsonwebtoken = require('jsonwebtoken');
+var Cryptr = require('cryptr');
+var zip = require('express-zip');
 const smtpUtil = require('../utils/smtp');
-var folderPath = path.join(__dirname, '../pdf/');
 var template = require('../services/template');
 var job = require('../services/job');
+var organization = require('../services/organization');
+var user = require('../services/user');
 var rimraf = require('rimraf');
 var QRCode = require('qrcode');
 var md5File = require('md5-file');
 var securePin = require("secure-pin");
-
+var secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
+var mirrorSecret = "FCOOeyckl0eVHLQsLN0qvtAJACmIPIXd";
+var cryptr = new Cryptr('nk<%4]<`(6Q@X3A(0gBS5&l[X3dIE.');
 const accountSid = 'AC6f83c82769898deb5ca92f1ab7e0ab25';
 const authToken = '08ac8dbba600fd0d4ea20ebc69569ac1';
 const client = require('twilio')(accountSid, authToken);
@@ -39,35 +43,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+/*
+    Template
+*/
+
 router.post('/api/upload', upload.single('file'), (req, res) => {
     res.send({ result: 'success' });
 });
 
-router.get('/api/test1', (req, res) => {
-    // client.messages
-    //   .create({from: 'Initials', body: 'hello there', to: '+6594354042'})
-    //   .then(message => console.log(message.sid))
-    //   .done();
-    // const filePath = path.join(__dirname, '../pdf/generated/ac31a4a6-a5fa-408e-9257-3cb6a3ef82b3/attachment.pdf');
-    // md5File(filePath, (err, hash) => {
-    //     console.log(hash);
-    //     res.send({ result: 'success' });
-    // });
-    // var pdf = new HummusRecipe(filePath, path.join(__dirname, '../pdf/completed1.pdf'));
-    // console.log(pdf.metadata);
-    // res.send({ result: 'success' });
-    securePin.generatePin(6, (pin) => {
-        console.log("Pin: " + pin);
-        res.send({ result: 'success' });
-    })
-});
 
 router.get('/api/documents', (req, res) => {
     template.getAll().then(data => {
         res.json(data);
     });
 });
-
 
 router.get('/api/file', (req, res) => {
     var fileName = req.query.fileName;
@@ -81,6 +70,16 @@ router.get('/api/template', (req, res) => {
     });
 });
 
+router.post('/api/save', (req, res) => {
+    template.updateTemplate(req.body.filename, req.body.components).then(function (data) {
+        res.send({ result: 'success' });
+    });
+});
+
+/* 
+    JOB
+*/
+
 router.post('/api/pin', (req, res) => {
     var info = req.body;
     job.getJobByUuid(info.uuid, false).then(data => {
@@ -89,12 +88,6 @@ router.post('/api/pin', (req, res) => {
         } else {
             res.send({ result: 0 });
         }
-    });
-});
-
-router.post('/api/save', (req, res) => {
-    template.updateTemplate(req.body.filename, req.body.components).then(function (data) {
-        res.send({ result: 'success' });
     });
 });
 
@@ -112,6 +105,8 @@ router.get('/api/send', (req, res) => {
         })
     });
 });
+
+
 
 var generateFile = function (data, res, confirmation, receipient) {
     var resp = JSON.parse(data.data);
@@ -135,7 +130,7 @@ var generateFile = function (data, res, confirmation, receipient) {
                 var height = pdfDoc.default.pageHeght * top / 100;
                 var width = pdfDoc.default.pageWidth * left / 100;
                 var imageWidth = pdfDoc.default.pageWidth * imageWidth / 100;
-                let imagePath = path.join(__dirname, '../pdf/images/' + uuid);
+                let imagePath = path.join(__dirname, '../pdf/images/' + uuid + "-" + i);
                 var imageInfo = {
                     width: width,
                     height: height,
@@ -158,6 +153,8 @@ var generateFile = function (data, res, confirmation, receipient) {
         }
 
         Promise.all(imageArr).then(resp => {
+            console.log("images info");
+            console.log(resp);
             for (var i = 0; i < resp.length; i++) {
                 pdfDoc.image(resp[i], imagesInfo[i].width, imagesInfo[i].height, {
                     width: imagesInfo[i].imageWidth, keepAspectRatio: true
@@ -204,12 +201,6 @@ router.put('/api/job', (req, res) => {
     });
 });
 
-router.get('/api/test', (req, res) => {
-    template.getAll().then(data => {
-        res.json(data);
-    });
-});
-
 router.get('/api/job', (req, res) => {
     job.createJob().then(data => {
         res.json(data);
@@ -245,40 +236,47 @@ router.get('/api/sign/:uuid', (req, res) => {
     });
 });
 
-// API calls
-// router.get('/api/hello', (req, res) => {
-//     res.send({ express: 'Hello From Express' });
-// });
+/*
+    Organization
+*/
 
-// router.get('/api/token', (req, res) => {
-//     var token = jsonwebtoken.sign({}, secret, {
-//         expiresIn: 60
-//     });
-//     res.json({ 'content': cryptr.encrypt(token) });
-// });
+router.post('/api/organization', (req, res) => {
+    organization.createOrganization(req.body).then(org => {
+        res.json(org);
+    });
+});
 
-// router.get('/api/view', jwt({secret: secret}), (req, res) => {
-//     var file = req.query.file;
-//     var filePath = folderPath + file;
-//     res.sendFile(filePath);
-// });
+router.get('/api/organization', (req, res) => {
+    organization.getAll().then(orgs => {
+        res.json(orgs);
+    })
+});
 
-// router.get('/api/view', (req, res) => {
-//     var file = req.query.file;
-//     var filePath = folderPath + "nda.pdf";
-//     res.sendFile(filePath);
-// });
+router.get('/api/user', (req, res) => {
+    user.getAll().then(users => {
+        res.json(users);
+    });
+});
 
-// router.get('/api/file', (req, res) => {
-//     fs.readdir(folderPath, (err, files) => {
-//         var allFiles = [];
-//         files.forEach(element => {
-//             if (element !== '.DS_Store') {
-//                 allFiles.push(element);
-//             }
-//         });
-//         res.send({ 'content': allFiles });
-//     })
-// });
+router.post('/api/user', (req, res) => {
+    user.createUser(req.body).then(user => {
+        res.json(user);
+    })
+});
+
+router.post('/api/login', (req, res) => {
+    user.getUserForAuth(req.body).then(user => {
+        if (user.length === 0) {
+            res.status(404).json({ 'result': 'User unknown' });
+        }
+        var token = jsonwebtoken.sign({
+            userId: user,
+            secret: mirrorSecret
+        }, secret, {
+            expiresIn: 60
+        })
+        res.json({ token: cryptr.encrypt(token) });
+    })
+})
 
 module.exports = router;

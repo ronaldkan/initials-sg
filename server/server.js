@@ -4,18 +4,26 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 const url = process.env.FRONTEND || "http://localhost:3000";
-
+var jwt = require('express-jwt');
+var secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
 const index = require('./routes/index');
 const models = require('./models');
 
 models.Template.sync().then(data => {
-    console.log("synced");
+    models.Job.sync().then(data => {
+        console.log("Job synced");
+    });
 });
 
-models.Job.sync().then(data => {
-    console.log("synced");
+models.Organization.sync().then(data => {
+    models.User.sync().then(data => {
+        console.log("User synced");
+    });
 });
 
+models.Administrator.sync().then(data => {
+    console.log("Administrator synced");
+});
 
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
@@ -40,6 +48,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
+app.use(jwt({secret: secret}).unless({ path: ['/api/login', '/api/organization', '/api/user'] }));
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.redirect('/');
+    }
+});
+
+app.get('*', function(req, res) {
+    res.redirect('/');
+});
 
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files
