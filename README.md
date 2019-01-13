@@ -1,7 +1,7 @@
 # Two stacks in one
 
-1) Client folder for frontend
-2) Server folder for backend
+1) **client** folder for frontend
+2) **server** folder for backend
 
 ### Installion for first run
 1) Run `npm i` at each folder
