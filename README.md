@@ -11,4 +11,8 @@
 ### Getting it up and ready
 1) Run `npm start` at each folder
 
+## Note for installing Postgres using Brew
+1. `brew install postgres` for installing postgres with brew
+2. `brew services start postgresql` for autostart, `pg_ctl -D /usr/local/var/postgres start` for manual start.
+
 ### More to be added...
