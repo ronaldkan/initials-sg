@@ -15,19 +15,19 @@ class Footer extends Component {
                         <div className="row">
                             <div className="col footer-col is-3">
                                 <p className="sub-header"><b>Other Common Services</b></p>
-                                <p><a href="https://designsystem.gov.sg/" target="_blank">Design System <i className="sgds-icon sgds-icon-external"></i></a></p>
-                                <p><a href="https://form.gov.sg/" target="_blank">FormSG <i className="sgds-icon sgds-icon-external"></i></a></p>
+                                <p><a href="https://designsystem.gov.sg/" target="_blank" without rel="noopener noreferrer">Design System <i className="sgds-icon sgds-icon-external"></i></a></p>
+                                <p><a href="https://form.gov.sg/" target="_blank" without rel="noopener noreferrer">FormSG <i className="sgds-icon sgds-icon-external"></i></a></p>
                             </div>
                             <div className="col footer-col is-3">
                                 <p className="sub-header"><b>Related Info</b></p>
-                                <p><a href="https://blog.gds-gov.tech" target="_blank">GDS Blog <i className="sgds-icon sgds-icon-external"></i></a></p>
+                                <p><a href="https://blog.gds-gov.tech" target="_blank" without rel="noopener noreferrer">GDS Blog <i className="sgds-icon sgds-icon-external"></i></a></p>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col footer-col is-right-desktop-only">
                                 <ul>
                                     <li className="is-inline-block-desktop-only">
-                                        <p><a href="https://form.gov.sg/forms/govtech/5bd18e5c46209b000f56f3e0" target="_blank">Contact</a></p>
+                                        <p><a href="https://form.gov.sg/forms/govtech/5bd18e5c46209b000f56f3e0" target="_blank" without rel="noopener noreferrer">Contact</a></p>
                                     </li>
                                     <li className="is-inline-block-desktop-only">
                                         <p><a href="/general/faq/">FAQs</a></p>

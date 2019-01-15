@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Spin, Input, Icon, Button } from 'antd';
-import * as Cookies from 'js-cookie';
+import { Form, Input, Icon, Button } from 'antd';
 import { postRequest } from '../util/requestUtil'; 
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
@@ -18,11 +17,8 @@ class Login extends Component {
             if (!err) {
                 postRequest('/api/login', values).then(resp => {
                     if (resp.status === 200) {
-                        Cookies.set("initialsdemo", resp.data.token, { expires: 1/24 });
                         this.props.history.push('/demo');
-                    } else {
-                        
-                    }
+                    };
                 });
             }
         });

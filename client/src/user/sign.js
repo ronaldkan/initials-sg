@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import OtpForm from './form/otpForm';
 
-import jspdf from 'jspdf';
 import { Layout, Input, Button, notification, Modal, Row } from 'antd';
 import { Document, Page } from 'react-pdf';
-import html2canvas from 'html2canvas';
 import { getDecryptedJwt } from '../util/jwtUtil';
 import { SketchField, Tools } from 'react-sketch';
 import BlankImage from '../img/blank.jpg';
@@ -102,7 +99,6 @@ class Sign extends Component {
                 }
                 let componentList = JSON.parse(data.Template.component);
                 let dataList = JSON.parse(data.data);
-                var list = document.getElementsByClassName('ant-input');
                 for (var i = 0; i < componentList.length; i++) {
                     if (dataList.hasOwnProperty(componentList[i].id)) {
                         componentList[i].value = dataList[componentList[i].id];

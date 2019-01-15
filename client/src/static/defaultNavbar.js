@@ -11,7 +11,7 @@ class DefaultNavbar extends Component {
                     <div className="sgds-container">
                         <div className="row">
                             <div className="col">
-                                <a href="http://www.gov.sg" alt="Singapore Government" target="_blank">
+                                <a href="http://www.gov.sg" alt="Singapore Government" target="_blank" without rel="noopener noreferrer">
                                     <div><span className="sgds-icon sgds-icon-sg-crest is-size-5"></span> <span className="is-text">A
                                                 Singapore Government Agency Website</span></div>
                                 </a>

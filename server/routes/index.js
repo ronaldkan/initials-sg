@@ -18,7 +18,8 @@ var rimraf = require('rimraf');
 var QRCode = require('qrcode');
 var md5File = require('md5-file');
 var securePin = require("secure-pin");
-var secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
+const withAuth = require('../authMiddleware');
+const secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
 var mirrorSecret = "FCOOeyckl0eVHLQsLN0qvtAJACmIPIXd";
 var cryptr = new Cryptr('nk<%4]<`(6Q@X3A(0gBS5&l[X3dIE.');
 const accountSid = 'AC6f83c82769898deb5ca92f1ab7e0ab25';
@@ -35,8 +36,10 @@ const storage = multer.diskStorage({
             cb(null, `${file.originalname}`);
         }
         else {
+            console.log('hello');
             cb(null, `${file.originalname}`);
-            template.createTemplate(file.originalname, "[]", req.query.name);
+            var name = req.importedUser.firstname + " " + req.importedUser.lastname;
+            template.createTemplate(file.originalname, "[]", name);
         }
     },
 });
@@ -47,7 +50,7 @@ const upload = multer({ storage });
     Template
 */
 
-router.post('/api/upload', upload.single('file'), (req, res) => {
+router.post('/api/upload', [withAuth, upload.single('file')], (req, res) => {
     res.send({ result: 'success' });
 });
 
@@ -270,13 +273,17 @@ router.post('/api/login', (req, res) => {
             res.status(404).json({ 'result': 'User unknown' });
         }
         var token = jsonwebtoken.sign({
-            userId: user,
+            user: user,
             secret: mirrorSecret
         }, secret, {
             expiresIn: 60
         })
-        res.json({ token: cryptr.encrypt(token) });
+        res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
     })
-})
+});
+
+router.get('/api/checkToken', withAuth, (req, res) =>{
+    res.sendStatus(200);
+});
 
 module.exports = router;
