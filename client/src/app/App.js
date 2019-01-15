@@ -18,6 +18,8 @@ import UserComplete from '../user/common/complete';
 import UserCompletedView from '../user/view';
 import UserAccount from '../user/account';
 
+import AdminLogin from '../admin/login';
+
 class App extends Component {
 
   NoMatch = ({ location }) => (
@@ -43,6 +45,7 @@ class App extends Component {
         <Route path="/demo/completed/:uuid" exact component={UserCompletedView} />
         {/* <Route path="/demo/home" exact component={UserLanding} /> */}
         <Route path="/demo/login" exact component={UserLogin} />
+        <Route path="/admin" exact component={AdminLogin} />
         <Route component={this.NoMatch} />
       </Switch>
     );
