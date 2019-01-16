@@ -61,10 +61,8 @@ class View extends Component {
             .then(data => {
                 this.setState({
                     url: {
-                        url: `${url}/api/file?fileName=${data.Template.file}`,
-                        httpHeaders: {
-                            'Authorization': `Bearer ${getDecryptedJwt()}`
-                        }
+                        url: `${url}/api/file?id=${data.Template.id}`,
+                        withCredentials:true,
                     }
                 });
                 if (!data.Template) {

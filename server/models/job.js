@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     pin: DataTypes.STRING,
     uuid: { 
       type:DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4
+      defaultValue: DataTypes.UUIDV4,
+      unique: true
     },
     completedhash: DataTypes.STRING
   }, {

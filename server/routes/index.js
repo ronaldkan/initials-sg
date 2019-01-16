@@ -29,18 +29,15 @@ const client = require('twilio')(accountSid, authToken);
 const url = process.env.FRONTEND || "http://localhost:3000";
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, '../pdf'),
+    destination: function (req, file, cb) {
+        template.createTemplate(file.originalname, "[]", req.importedUser[0].firstname + " " + req.importedUser[0].lastname).then(template => {
+            const filePath = path.join(__dirname, '../pdf/templates/' + template.id);
+            fs.mkdirSync(filePath);
+            cb(null, filePath);
+        })
+    },
     filename(req, file, cb) {
-        var newFile = path.join(__dirname, '../pdf/' + `${file.originalname}`);
-        if (fs.existsSync(newFile)) {
-            cb(null, `${file.originalname}`);
-        }
-        else {
-            console.log('hello');
-            cb(null, `${file.originalname}`);
-            var name = req.importedUser.firstname + " " + req.importedUser.lastname;
-            template.createTemplate(file.originalname, "[]", name);
-        }
+        cb(null, `${file.originalname}`);
     },
 });
 
@@ -54,27 +51,27 @@ router.post('/api/upload', [withAuth, upload.single('file')], (req, res) => {
     res.send({ result: 'success' });
 });
 
-
 router.get('/api/documents', (req, res) => {
     template.getAll().then(data => {
         res.json(data);
     });
 });
 
-router.get('/api/file', (req, res) => {
-    var fileName = req.query.fileName;
-    var filePath = path.join(__dirname, '../pdf/' + fileName);
-    res.sendFile(filePath);
+router.get('/api/file', withAuth, (req, res) => {
+    var id = req.query.id;
+    template.getTemplateById(id).then(template => {
+        res.sendFile(path.join(__dirname, '../pdf/templates/' + id + "/" + template.file));
+    });
 });
 
-router.get('/api/template', (req, res) => {
-    template.getTemplateByFileName(req.query.fileName).then(function (data) {
+router.get('/api/template', withAuth, (req, res) => {
+    template.getTemplateById(req.query.id).then(function (data) {
         res.json(data);
     });
 });
 
-router.post('/api/save', (req, res) => {
-    template.updateTemplate(req.body.filename, req.body.components).then(function (data) {
+router.post('/api/save', withAuth, (req, res) => {
+    template.updateTemplate(req.body.id, req.body.components).then(function (data) {
         res.send({ result: 'success' });
     });
 });
@@ -83,7 +80,7 @@ router.post('/api/save', (req, res) => {
     JOB
 */
 
-router.post('/api/pin', (req, res) => {
+router.post('/api/pin', withAuth, (req, res) => {
     var info = req.body;
     job.getJobByUuid(info.uuid, false).then(data => {
         if (data.pin.toString() === info.pin) {
@@ -94,7 +91,7 @@ router.post('/api/pin', (req, res) => {
     });
 });
 
-router.get('/api/send', (req, res) => {
+router.get('/api/send', withAuth, (req, res) => {
     var info = req.query;
     if (info.phone) {
         info.phone = "+65" + info.phone;
@@ -117,7 +114,7 @@ var generateFile = function (data, res, confirmation, receipient) {
     var uuid = data.uuid;
     const myPath = path.join(__dirname, '../pdf/generated/' + uuid);
     rimraf(myPath, function () {
-        const filePath = path.join(__dirname, '../pdf/' + filename);
+        const filePath = path.join(__dirname, '../pdf/templates/'+ data.Template.id + '/' + filename);
         fs.mkdirSync(myPath);
         const pdfDoc = new HummusRecipe(filePath, myPath + "/attachment.pdf");
         pdfDoc.editPage(1);
@@ -181,20 +178,20 @@ var generateFile = function (data, res, confirmation, receipient) {
     })
 }
 
-router.get('/api/job/download/:uuid', (req, res) => {
+router.get('/api/job/download/:uuid', withAuth, (req, res) => {
     job.getJobByUuid(req.params.uuid, true).then(data => {
         generateFile(data, res);
         // res.send(data);
     });
 });
 
-router.put('/api/job/cancel/:uuid', (req, res) => {
+router.put('/api/job/cancel/:uuid', withAuth, (req, res) => {
     job.cancelJobDataByUuid(req.params.uuid).then(data => {
         res.send(data);
     });
 })
 
-router.put('/api/job', (req, res) => {
+router.put('/api/job', withAuth, (req, res) => {
     // TODO: refactor to a single statement, due to time leave it for now.
     job.updateJobDataByUuid(req.body.uuid, req.body.data).then(data => {
         job.getJobByUuid(req.body.uuid, true).then(data1 => {
@@ -204,32 +201,32 @@ router.put('/api/job', (req, res) => {
     });
 });
 
-router.get('/api/job', (req, res) => {
+router.get('/api/job', withAuth, (req, res) => {
     job.createJob().then(data => {
         res.json(data);
     });
 });
 
-router.get('/api/job/all', (req, res) => {
+router.get('/api/job/all', withAuth, (req, res) => {
     job.getAll().then(data => {
         res.json(data);
     });
 });
 
-router.get('/api/job/:uuid', (req, res) => {
+router.get('/api/job/:uuid', withAuth, (req, res) => {
     job.getJobByUuid(req.params.uuid, true).then(data => {
         res.json(data);
     });
 });
 
-router.get('/api/sign/:uuid', (req, res) => {
+router.get('/api/sign/:uuid', withAuth, (req, res) => {
     var uuid = req.params.uuid;
     job.getJobByUuid(uuid, false).then(data => {
         if (data.phone && !data.pin) {
             securePin.generatePin(6, (pin) => {
                 job.updateJobPinByUuid(uuid, pin.toString()).then(resp => {
                     client.messages
-                        .create({ from: 'InitialsSG', body: 'Your Initials One-Time PIN is ' + pin + ". It will expire in 2 minutes.", to: data.phone})
+                        .create({ from: 'InitialsSG', body: 'Your Initials One-Time PIN is ' + pin + ". It will expire in 2 minutes.", to: data.phone })
                         .then(message => console.log(message.sid))
                         .done();
                 });
@@ -243,25 +240,25 @@ router.get('/api/sign/:uuid', (req, res) => {
     Organization
 */
 
-router.post('/api/organization', (req, res) => {
+router.post('/api/organization', withAuth, (req, res) => {
     organization.createOrganization(req.body).then(org => {
         res.json(org);
     });
 });
 
-router.get('/api/organization', (req, res) => {
+router.get('/api/organization', withAuth, (req, res) => {
     organization.getAll().then(orgs => {
         res.json(orgs);
     })
 });
 
-router.get('/api/user', (req, res) => {
+router.get('/api/user', withAuth, (req, res) => {
     user.getAll().then(users => {
         res.json(users);
     });
 });
 
-router.post('/api/user', (req, res) => {
+router.post('/api/user', withAuth, (req, res) => {
     user.createUser(req.body).then(user => {
         res.json(user);
     })
@@ -276,13 +273,13 @@ router.post('/api/login', (req, res) => {
             user: user,
             secret: mirrorSecret
         }, secret, {
-            expiresIn: 60
-        })
+                expiresIn: 60
+            })
         res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
     })
 });
 
-router.get('/api/checkToken', withAuth, (req, res) =>{
+router.get('/api/checkToken', withAuth, (req, res) => {
     res.sendStatus(200);
 });
 

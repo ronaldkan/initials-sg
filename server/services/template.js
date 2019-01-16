@@ -2,51 +2,35 @@ const models = require('../models');
 const template = models.Template;
 
 module.exports = {
-    getAll: function() {
+    getAll: function () {
         return template.findAll({
             order: [
                 ['id', 'DESC']
             ]
         })
     },
-    createTemplate: function(file, component, name) {
-        template.findOne({
-            where: {
-                file: file
-            }
-        }).then(function (data) {
-            if (data === null) {
-                return template.create({
-                    file: file,
-                    component: component,
-                    createdBy: name
-                });
-            } else {
-                return template.update({
-                    component: component
-                }, {
-                    where: {
-                        file: file
-                    }
-                });
-            }
+    createTemplate: function (file, component, name) {
+        return template.create({
+            file: file,
+            component: component,
+            createdBy: name
         });
     },
-    updateTemplate: function(file, component) {
+    updateTemplate: function (id, component) {
         return template.update({
             component: component,
             isDeleted: false
         }, {
-            where: {
-                file: file
-            }
-        });
+                where: {
+                    id: id
+                }
+            });
     },
-    getTemplateByFileName: function(file) {
+    getTemplateById: function (id) {
         return template.findOne({
             where: {
-                file: file
+                id: id
             }
-        });
-    },
+        })
+    }
 };

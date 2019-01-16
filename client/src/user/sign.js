@@ -85,10 +85,8 @@ class Sign extends Component {
                 }
                 this.setState({
                     url: {
-                        url: `${url}/api/file?fileName=${data.Template.file}`,
-                        httpHeaders: {
-                            'Authorization': `Bearer ${getDecryptedJwt()}`
-                        }
+                        url: `${url}/api/file?id=${data.Template.id}`,
+                        withCredentials:true,
                     }, recipient: data.recipient, file: data.Template.file
                 });
                 if (!data.Template) {
