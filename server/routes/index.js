@@ -97,7 +97,7 @@ router.get('/api/send', withAuth, (req, res) => {
         info.phone = "+65" + info.phone;
     }
     job.createJob(info.to, info.subject, info.message, info.TemplateId, info.data, info.phone).then(function (data) {
-        info["url"] = url + "/demo/sign/" + data.uuid;
+        info["url"] = url + "/platform/sign/" + data.uuid;
         QRCode.toDataURL(info["url"], function (err, url1) {
             info["qrcode"] = url1;
             smtpUtil.sendEmail(info);
