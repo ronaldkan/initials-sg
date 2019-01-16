@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -10,6 +11,28 @@ const index = require('./routes/index');
 const models = require('./models');
 var organization = require('./services/organization');
 var user = require('./services/user');
+const currentPath = path.join(__dirname) + '/pdf';
+const templatePath = currentPath + '/templates';
+const generatePath = currentPath + '/generated';
+const imagesPath = currentPath + '/images';
+
+if (!fs.existsSync(currentPath)) {
+    fs.mkdirSync(currentPath)
+    fs.mkdirSync(templatePath);
+    fs.mkdirSync(generatePath);
+    fs.mkdirSync(imagesPath);
+} else {
+
+    if (!fs.existsSync(templatePath)) {
+        fs.mkdirSync(templatePath);
+    }
+    if (!fs.existsSync(generatePath)) {
+        fs.mkdirSync(generatePath);
+    }
+    if (!fs.existsSync(imagesPath)) {
+        fs.mkdirSync(imagesPath);
+    }
+}
 
 models.Template.sync().then(data => {
     models.Job.sync().then(data => {
@@ -44,7 +67,7 @@ models.Administrator.sync().then(data => {
     console.log("Administrator synced");
 });
 
-app.use(cors({credentials: true, origin: ['http://localhost:3000'] }));
+app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

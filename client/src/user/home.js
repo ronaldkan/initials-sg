@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
 import { getRequest, getUrl } from '../util/requestUtil';
 import { List, Button, Upload, message, Icon } from 'antd';
-import * as Cookies from 'js-cookie';
 const url = getUrl();
 
 class Home extends Component {
@@ -24,6 +22,7 @@ class Home extends Component {
                 let myData = [];
                 data.forEach(element => {
                     myData.push({
+                        id: element.id,
                         title: element.file,
                         description: 'Uploaded by ' + element.createdBy
                     })
@@ -35,6 +34,7 @@ class Home extends Component {
     getUploadProps(getDocs) {
         return {
             action: `${url}/api/upload`,
+            withCredentials:true,
             onChange({ file, fileList }) {
                 if (file.status === 'done') {
                     message.success(`${file.name} file uploaded successfully`);
@@ -78,7 +78,7 @@ class Home extends Component {
                                     itemLayout="horizontal"
                                     dataSource={documents}
                                     renderItem={item => (
-                                        <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`demo/view/${item.title}`)}>View</Button>]}>
+                                        <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`demo/view/${item.id}`)}>View</Button>]}>
                                             <List.Item.Meta
                                                 title={item.title}
                                                 description={item.description}

@@ -57,14 +57,12 @@ class View extends Component {
     }
 
     componentDidMount() {
-        getRequest(`/api/template?fileName=${this.props.match.params.document}`, {})
+        getRequest(`/api/template?id=${this.props.match.params.document}`, {})
             .then(response => response.data)
             .then(data => {
                 this.setState({ url: {
-                    url: `${url}/api/file?fileName=${this.props.match.params.document}`,
-                    httpHeaders: {
-                        'Authorization': `Bearer ${getDecryptedJwt()}`
-                    }
+                    url: `${url}/api/file?id=${this.props.match.params.document}`,
+                    withCredentials:true
                 }});
                 if (!data) {
                     return;
