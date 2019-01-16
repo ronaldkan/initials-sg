@@ -19,6 +19,7 @@ import UserCompletedView from '../user/view';
 import UserAccount from '../user/account';
 
 import AdminLogin from '../admin/login';
+import AdminHome from '../admin/home';
 
 class App extends Component {
 
@@ -45,7 +46,9 @@ class App extends Component {
         <Route path="/demo/completed/:uuid" exact component={UserCompletedView} />
         {/* <Route path="/demo/home" exact component={UserLanding} /> */}
         <Route path="/demo/login" exact component={UserLogin} />
-        <Route path="/admin" exact component={AdminLogin} />
+        <Route path="/admin" exact component={Auth(AdminHome)} />
+        <Route path="/admin/login" exact component={AdminLogin} />
+        <Route path="/admin/home" exact component={AdminHome} />
         <Route component={this.NoMatch} />
       </Switch>
     );

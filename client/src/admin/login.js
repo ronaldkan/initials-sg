@@ -15,9 +15,9 @@ class Login extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                postRequest('/api/login', values).then(resp => {
+                postRequest('/api/adminLogin', values).then(resp => {
                     if (resp.status === 200) {
-                        this.props.history.push('/demo');
+                        this.props.history.push('/admin/home');
                     };
                 });
             }

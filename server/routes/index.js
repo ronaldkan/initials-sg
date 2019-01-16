@@ -282,6 +282,22 @@ router.post('/api/login', (req, res) => {
     })
 });
 
+router.post('/api/adminLogin', (req, res) => {
+    user.getUserForAuth(req.body).then(user => {
+        // if (user.length === 0) {
+        //     res.status(404).json({ 'result': 'Admin User unknown' });
+        // }
+        // var token = jsonwebtoken.sign({
+        //     user: user,
+        //     secret: mirrorSecret
+        // }, secret, {
+        //     expiresIn: 60
+        // })
+        // res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
+        res.sendStatus(200);
+    })
+});
+
 router.get('/api/checkToken', withAuth, (req, res) =>{
     res.sendStatus(200);
 });
