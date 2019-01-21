@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Libs 
 var fs = require('fs');
 var path = require('path');
 const multer = require('multer');
@@ -10,15 +11,22 @@ var jsonwebtoken = require('jsonwebtoken');
 var Cryptr = require('cryptr');
 var zip = require('express-zip');
 const smtpUtil = require('../utils/smtp');
+
+// Services 
 var template = require('../services/template');
 var job = require('../services/job');
 var organization = require('../services/organization');
 var user = require('../services/user');
+var admin = require('../services/admin');
+
+// Extra Libs
 var rimraf = require('rimraf');
 var QRCode = require('qrcode');
 var md5File = require('md5-file');
 var securePin = require("secure-pin");
 const withAuth = require('../authMiddleware');
+
+// Secrets 
 const secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
 var mirrorSecret = "FCOOeyckl0eVHLQsLN0qvtAJACmIPIXd";
 var cryptr = new Cryptr('nk<%4]<`(6Q@X3A(0gBS5&l[X3dIE.');
@@ -280,17 +288,17 @@ router.post('/api/login', (req, res) => {
 });
 
 router.post('/api/adminLogin', (req, res) => {
-    user.getUserForAuth(req.body).then(user => {
-        // if (user.length === 0) {
-        //     res.status(404).json({ 'result': 'Admin User unknown' });
-        // }
-        // var token = jsonwebtoken.sign({
-        //     user: user,
-        //     secret: mirrorSecret
-        // }, secret, {
-        //     expiresIn: 60
-        // })
-        // res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
+    admin.getAdminForAuth(req.body).then(admin => {
+        if (admin.length === 0) {
+            res.status(404).json({ 'result': 'Admin User unknown' });
+        }
+        var token = jsonwebtoken.sign({
+            admin: admin,
+            secret: mirrorSecret
+        }, secret, {
+            expiresIn: 60
+        })
+        res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
         res.sendStatus(200);
     })
 });

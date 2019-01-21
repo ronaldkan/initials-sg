@@ -5,6 +5,7 @@ import 'sgds-govtech/css/sgds.css';
 import './App.css';
 
 import Auth from './Auth';
+import AuthAdmin from './AuthAdmin';
 import Home from '../static/home';
 import About from '../static/about';
 import Faq from '../static/faq';
@@ -46,9 +47,9 @@ class App extends Component {
         <Route path="/demo/completed/:uuid" exact component={UserCompletedView} />
         {/* <Route path="/demo/home" exact component={UserLanding} /> */}
         <Route path="/demo/login" exact component={UserLogin} />
-        <Route path="/admin" exact component={Auth(AdminHome)} />
+        <Route path="/admin" exact component={AuthAdmin(AdminHome)} />
         <Route path="/admin/login" exact component={AdminLogin} />
-        <Route path="/admin/home" exact component={AdminHome} />
+        <Route path="/admin/home" exact component={AuthAdmin(AdminHome)} />
         <Route component={this.NoMatch} />
       </Switch>
     );
