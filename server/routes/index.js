@@ -24,7 +24,7 @@ var rimraf = require('rimraf');
 var QRCode = require('qrcode');
 var md5File = require('md5-file');
 var securePin = require("secure-pin");
-const withAuth = require('../authMiddleware');
+const { withAuth, withAdminAuth } = require('../authMiddleware');
 
 // Secrets 
 const secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
@@ -292,18 +292,22 @@ router.post('/api/adminLogin', (req, res) => {
         if (admin.length === 0) {
             res.status(404).json({ 'result': 'Admin User unknown' });
         }
-        var token = jsonwebtoken.sign({
+        var adminToken = jsonwebtoken.sign({
             admin: admin,
             secret: mirrorSecret
         }, secret, {
             expiresIn: 60
         })
-        res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
+        res.cookie('adminToken', cryptr.encrypt(adminToken), { httpOnly: true }).sendStatus(200);
         res.sendStatus(200);
     })
 });
 
 router.get('/api/checkToken', withAuth, (req, res) => {
+    res.sendStatus(200);
+});
+
+router.get('/api/checkAdminToken', withAdminAuth, (req, res) => {
     res.sendStatus(200);
 });
 

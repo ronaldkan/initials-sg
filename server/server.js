@@ -68,8 +68,8 @@ models.Administrator.sync().then(data => {
         admin.getAll().then(admins => {
             if (admins.length === 0) {
                 admin.createAdmin({
-                    username: 'admin',
-                    password: 'admin'
+                    username: 'administrator',
+                    password: 'administrator'
                 });
             }
         })
