@@ -68,11 +68,6 @@ class Home extends Component {
                                 <Sidebar getToHome={this.getToHome}/>
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
-                                <Upload {...props} style={{ marginBottom: '15px' }}>
-                                    <Button>
-                                        <Icon type="upload" /> Upload
-                                    </Button>
-                                </Upload>
                                 <List
                                     bordered={true}
                                     itemLayout="horizontal"
