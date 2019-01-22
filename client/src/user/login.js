@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button } from 'antd';
+import { Form, Input, Icon, Button, Alert } from 'antd';
 import { postRequest } from '../util/requestUtil'; 
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
@@ -9,6 +9,9 @@ const FormItem = Form.Item;
 class Login extends Component {
     constructor() {
         super();
+        this.state = {
+            error: false
+        };
     }
 
     handleSubmit = (e) => {
@@ -18,7 +21,17 @@ class Login extends Component {
                 postRequest('/api/login', values).then(resp => {
                     if (resp.status === 200) {
                         this.props.history.push('/demo');
-                    };
+                    }else {
+                        this.setState({
+                            error: true
+                        });
+                    }
+                }).catch((e) => 
+                {
+                    this.setState({
+                        error: true
+                    });
+                  console.error(e);
                 });
             }
         });
@@ -26,10 +39,11 @@ class Login extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-
+        const { error } = this.state;
 
         return (
             <div className="App">
+            { error ? <Alert showIcon={false} type="error" message="Login Failed" banner /> : '' }
                 <DefaultNavbar />
                 <section className="sgds-section" style={{ backgroundColor:'#F2F2F2' }}>
                     <div className="sgds-container">
