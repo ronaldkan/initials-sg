@@ -59,14 +59,14 @@ class Login extends Component {
                                             {getFieldDecorator('email', {
                                                 rules: [{ required: true, message: 'Please input your Username!' }],
                                             })(
-                                                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />,
+                                                <Input prefix={<Icon type="user" style={{ fontSize: '13px' }} />} placeholder="Username" />,
                                             )}
                                         </FormItem>
                                         <FormItem>
                                             {getFieldDecorator('password', {
                                                 rules: [{ required: true, message: 'Please input your Password!' }],
                                             })(
-                                                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />,
+                                                <Input prefix={<Icon type="lock" style={{ fontSize: '13px' }} />} type="password" placeholder="Password" />,
                                             )}
                                         </FormItem>
                                         <Button className="sgds-button is-rounded is-medium is-secondary margin--top--lg" type="primary" htmlType="submit" style={{ width: '100%', height: '49.5px' }}>Log in</Button>
