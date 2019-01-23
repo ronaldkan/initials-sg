@@ -46,7 +46,7 @@ class Home extends Component {
     }
 
     getToHome = () => {
-        this.props.history.push('/');
+        this.props.history.push('/admin/home');
     }
 
     componentDidMount() {
