@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as Cookies from 'js-cookie';
+import { getRequest } from '../../util/requestUtil'; 
 
 class Sidebar extends Component {
 
@@ -15,8 +15,15 @@ class Sidebar extends Component {
     }
 
     logout = (getToHome) => {
-        Cookies.remove("initialsdemo");
-        getToHome();
+        getRequest('/api/logout', {}).then(resp => {
+            if (resp.status === 200) {
+                // getToHome();  
+                window.location.reload(); // force refresh temp fix icon resize
+            }
+        }).catch((e) => 
+        {
+          console.error(e);
+        });
     }
 
     render() {

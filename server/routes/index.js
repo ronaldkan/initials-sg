@@ -287,6 +287,11 @@ router.post('/api/login', (req, res) => {
     })
 });
 
+router.get('/api/logout', (req, res) => {
+    res.clearCookie("token");
+    res.sendStatus(200);
+});
+
 router.post('/api/adminLogin', (req, res) => {
     admin.getAdminForAuth(req.body).then(admin => {
         if (admin.length === 0) {

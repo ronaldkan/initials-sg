@@ -17,14 +17,13 @@ class Sidebar extends Component {
     logout = (getToHome) => {
         getRequest('/api/adminLogout', {}).then(resp => {
             if (resp.status === 200) {
-                getToHome();  
+                // getToHome();  
                 window.location.reload(); // force refresh temp fix icon resize
             }
         }).catch((e) => 
         {
           console.error(e);
         });
-        
     }
 
     render() {
