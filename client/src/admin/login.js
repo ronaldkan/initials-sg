@@ -41,7 +41,6 @@ class Login extends Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { error } = this.state;
-        console.log('error', error);
 
         return (
             <div className="App">

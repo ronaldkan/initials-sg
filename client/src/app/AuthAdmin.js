@@ -33,7 +33,6 @@ export default function withAuth(ComponentToProtect) {
                 if (redirect) {
                     view = <Redirect to="/admin/login" />
                 } else {
-                    console.log('test');
                     view = <ComponentToProtect {...this.props} />
                 }
             }

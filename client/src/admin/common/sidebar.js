@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as Cookies from 'js-cookie';
+import { getRequest } from '../../util/requestUtil'; 
 
 class Sidebar extends Component {
 
     componentDidMount() {
         var currentPath = window.location.pathname;
-        currentPath = currentPath.replace("/demo", "");
+        currentPath = currentPath.replace("/admin", "");
         if (currentPath.startsWith("/job") === true) {
             document.getElementById("idJob").classList.add("is-active");
         } else {
@@ -15,8 +15,15 @@ class Sidebar extends Component {
     }
 
     logout = (getToHome) => {
-        Cookies.remove("initialsdemo");
-        getToHome();
+        getRequest('/api/adminLogout', {}).then(resp => {
+            if (resp.status === 200) {
+                getToHome();  
+            }
+        }).catch((e) => 
+        {
+          console.error(e);
+        });
+        
     }
 
     render() {

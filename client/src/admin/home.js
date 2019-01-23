@@ -5,7 +5,6 @@ import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
 import { getRequest, getUrl } from '../util/requestUtil';
 import { List, Button, Upload, message, Icon } from 'antd';
-import * as Cookies from 'js-cookie';
 const url = getUrl();
 
 class Home extends Component {
@@ -47,7 +46,7 @@ class Home extends Component {
     }
 
     getToHome = () => {
-        this.props.history.push('/admin/home');
+        this.props.history.push('/');
     }
 
     componentDidMount() {

@@ -303,6 +303,11 @@ router.post('/api/adminLogin', (req, res) => {
     })
 });
 
+router.get('/api/adminLogout', (req, res) => {
+    res.clearCookie("adminToken");
+    res.sendStatus(200);
+});
+
 router.get('/api/checkToken', withAuth, (req, res) => {
     res.sendStatus(200);
 });
