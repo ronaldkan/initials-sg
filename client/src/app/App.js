@@ -52,7 +52,7 @@ class App extends Component {
         <Route path="/admin" exact component={AuthAdmin(AdminHome)} />
         <Route path="/admin/login" exact component={AdminLogin} />
         <Route path="/admin/home" exact component={AuthAdmin(AdminHome)} />
-        <Route path="/admin/account" exact component={AdminAccount} />
+        <Route path="/admin/account" exact component={AuthAdmin(AdminAccount)} />
         <Route component={this.NoMatch} />
       </Switch>
     );

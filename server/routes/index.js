@@ -321,4 +321,10 @@ router.get('/api/checkAdminToken', withAdminAuth, (req, res) => {
     res.sendStatus(200);
 });
 
+router.get('/api/checkAdminList', withAdminAuth, (req, res) => {
+    admin.getAll().then(data => {
+        res.json(data);
+    });
+});
+
 module.exports = router;

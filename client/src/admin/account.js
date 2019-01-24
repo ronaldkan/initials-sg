@@ -3,7 +3,6 @@ import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
 import DataTable from './common/dataTable';
-import { Table } from 'antd';
 import { getRequest, getBlobRequest, putRequest } from '../util/requestUtil';
 
 class Account extends Component {      
@@ -13,10 +12,13 @@ class Account extends Component {
     }
     
     getToHome = () => {
-        this.props.history.push('/demo/home');
+        this.props.history.push('/admin/home');
     }
 
     render() {
+        const columnNames = ["key", "id", "username", "createdAt", "updatedAt"];
+        const tableName = "Administrators";
+        const apiName = "/api/checkAdminList"
 
         return (
             <div className="App">
@@ -28,7 +30,7 @@ class Account extends Component {
                                 <Sidebar getToHome={this.getToHome}/>
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
-                                <DataTable />
+                                <DataTable apiName={apiName} tableName={tableName} columnNames={columnNames}/>
                             </div>
                         </div>
                     </div>

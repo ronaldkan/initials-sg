@@ -1,14 +1,41 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'antd';
-import { postRequest } from '../../util/requestUtil';
+import _ from 'lodash';
+import { getRequest } from '../../util/requestUtil';
+import moment from 'moment';
 
 class DataTable extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             selectedRowKeys: [],  // Check here to configure the default column
-            loading: false
+            loading: false,
+            adminData: []
         };
+    }
+
+    componentDidMount = () => {
+        
+        getRequest(this.props.apiName, {})
+        .then(response => response.data)
+        .then(data => {
+            let myData = [];
+            var i = 0;
+            data.forEach(element => {
+                element.key = i;
+                i = i+1;
+                if (element.createdAt){
+                    element.createdAt = moment(element.createdAt).format('YYYY-MM-DD HH:mm');
+                }
+                
+                if (element.updatedAt){
+                    element.updatedAt = moment(element.updatedAt).format('YYYY-MM-DD HH:mm');
+                }
+
+                myData.push(element);
+            });
+            this.setState({ adminData: myData });
+        });
     }
 
     start = () => {
@@ -28,38 +55,28 @@ class DataTable extends Component {
     }
 
     render() {
-        // const {  } = this.props.form;
-        const { loading, selectedRowKeys } = this.state;
+        const { tableName, columnNames } = this.props;
+        const { loading, selectedRowKeys, adminData } = this.state;
 
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
           };
+        let keylessColumnNames = columnNames.slice(1);
+        const columns = keylessColumnNames.map((colName) => {
+            return { title: _.startCase(colName), dataIndex: colName };
+        });
 
-        const columns = [{
-            title: 'ID',
-            dataIndex: 'id',
-          }, {
-            title: 'Username',
-            dataIndex: 'username',
-          }, {
-            title: 'Created At',
-            dataIndex: 'createdAt',
-          }, {
-            title: 'Updated At',
-            dataIndex: 'updatedAt',
-          }];
-
-          var data = [];
-          for (let i = 0; i < 5; i++) {
-          data.push({
-              key: i,
-              id: i,
-              username: 32,
-              createdAt: `London, Park Lane no. ${i}`,
-              updatedAt: `London, Park Lane no. ${i}`,
-          });
-          }
+        //   var data = [];
+        //   for (let i = 0; i < 5; i++) {
+        //   data.push({
+        //       key: i,
+        //       id: i,
+        //       username: 32,
+        //       createdAt: `London, Park Lane no. ${i}`,
+        //       updatedAt: `London, Park Lane no. ${i}`,
+        //   });
+        //   }
 
 
           const hasSelected = selectedRowKeys.length > 0;
@@ -69,16 +86,16 @@ class DataTable extends Component {
                 <Button
                   type="primary"
                   onClick={this.start}
-                  disabled={!hasSelected}
+                  disabled={hasSelected}
                   loading={loading}
                 >
-                  Reload
+                  New Admin (Not implemented yet)
                 </Button>
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
               </div>
-              <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+              <Table rowSelection={rowSelection} columns={columns} dataSource={adminData} />
             </div>
           );
     }

@@ -1,13 +1,14 @@
 const models = require('../models');
 const model = models.Administrator;
 
-module.exports = {
+module.exports = { 
 
     getAll: function() {
         return model.findAll({
             order: [
                 ['id', 'DESC']
-            ]
+            ],
+            attributes: ['id', 'username', 'createdAt', 'updatedAt']
         })
     },
     createAdmin: function(body) {
