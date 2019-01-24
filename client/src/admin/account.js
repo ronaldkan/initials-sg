@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
-import AddAdminForm from './form/addAdminForm';
+import DataTable from './common/dataTable';
+import { Table } from 'antd';
 import { getRequest, getBlobRequest, putRequest } from '../util/requestUtil';
 
-class Account extends Component {
+class Account extends Component {      
 
     constructor() {
         super();
@@ -27,7 +28,7 @@ class Account extends Component {
                                 <Sidebar getToHome={this.getToHome}/>
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
-                                <AddAdminForm />
+                                <DataTable />
                             </div>
                         </div>
                     </div>
