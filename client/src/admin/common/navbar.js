@@ -67,7 +67,7 @@ class Navbar extends Component {
                         </div>
                         <div className="navbar-end is-hidden-touch">
                             <div className="navbar-item">
-                                <a className="navbar-link is-uppercase sgds-button is-rounded is-large" href="/demo/login">
+                                <a className="navbar-link is-uppercase sgds-button is-rounded is-large" href="/admin">
                                     <h6>Login</h6>
                                 </a>
                             </div>

@@ -67,18 +67,7 @@ class Home extends Component {
                                 <Sidebar getToHome={this.getToHome}/>
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
-                                <List
-                                    bordered={true}
-                                    itemLayout="horizontal"
-                                    dataSource={documents}
-                                    renderItem={item => (
-                                        <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`demo/view/${item.title}`)}>View</Button>]}>
-                                            <List.Item.Meta
-                                                title={item.title}
-                                                description={item.description}
-                                            />
-                                        </List.Item>
-                                    )} />
+                                Manage your admin stuffs here.
                             </div>
                         </div>
                     </div>

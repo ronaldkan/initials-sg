@@ -21,6 +21,8 @@ import UserAccount from '../user/account';
 
 import AdminLogin from '../admin/login';
 import AdminHome from '../admin/home';
+import AdminAccount from '../admin/account';
+
 
 class App extends Component {
 
@@ -50,6 +52,7 @@ class App extends Component {
         <Route path="/admin" exact component={AuthAdmin(AdminHome)} />
         <Route path="/admin/login" exact component={AdminLogin} />
         <Route path="/admin/home" exact component={AuthAdmin(AdminHome)} />
+        <Route path="/admin/account" exact component={AdminAccount} />
         <Route component={this.NoMatch} />
       </Switch>
     );
