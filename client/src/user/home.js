@@ -33,8 +33,9 @@ class Home extends Component {
 
     getUploadProps(getDocs) {
         return {
+            accept: '.pdf',
             action: `${url}/api/upload`,
-            withCredentials:true,
+            withCredentials: true,
             onChange({ file, fileList }) {
                 if (file.status === 'done') {
                     message.success(`${file.name} file uploaded successfully`);
@@ -47,7 +48,7 @@ class Home extends Component {
     }
 
     getToHome = () => {
-        this.props.history.push('/demo/home');
+        this.props.history.push('/platform/login');
     }
 
     componentDidMount() {
@@ -65,7 +66,7 @@ class Home extends Component {
                     <div className="sgds-container">
                         <div className="row">
                             <div className="col is-3 is-hidden-touch has-side-nav">
-                                <Sidebar getToHome={this.getToHome}/>
+                                <Sidebar getToHome={this.getToHome} />
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
                                 <Upload {...props} style={{ marginBottom: '15px' }}>
@@ -78,7 +79,7 @@ class Home extends Component {
                                     itemLayout="horizontal"
                                     dataSource={documents}
                                     renderItem={item => (
-                                        <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`demo/view/${item.id}`)}>View</Button>]}>
+                                        <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`platform/view/${item.id}`)}>View</Button>]}>
                                             <List.Item.Meta
                                                 title={item.title}
                                                 description={item.description}

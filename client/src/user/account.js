@@ -12,7 +12,7 @@ class Account extends Component {
     }
     
     getToHome = () => {
-        this.props.history.push('/demo/home');
+        this.props.history.push('/platform/login');
     }
 
     render() {

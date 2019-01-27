@@ -17,7 +17,7 @@ class Login extends Component {
             if (!err) {
                 postRequest('/api/login', values).then(resp => {
                     if (resp.status === 200) {
-                        this.props.history.push('/demo');
+                        this.props.history.push('/platform');
                     };
                 });
             }

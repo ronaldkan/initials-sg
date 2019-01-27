@@ -114,47 +114,65 @@ var generateFile = function (data, res, confirmation, receipient) {
     var uuid = data.uuid;
     const myPath = path.join(__dirname, '../pdf/generated/' + uuid);
     rimraf(myPath, function () {
-        const filePath = path.join(__dirname, '../pdf/templates/'+ data.Template.id + '/' + filename);
+        const filePath = path.join(__dirname, '../pdf/templates/' + data.Template.id + '/' + filename);
         fs.mkdirSync(myPath);
         const pdfDoc = new HummusRecipe(filePath, myPath + "/attachment.pdf");
-        pdfDoc.editPage(1);
-
+        var numPages = pdfDoc.metadata.pages;
+        var pageHeight = pdfDoc.default.pageHeght;
+        var pageWidth = pdfDoc.default.pageWidth;
+        console.log('defaults');
+        console.log(pageHeight);
+        console.log(pageWidth);
+        if (numPages > 0) {
+            var theDoc = pdfDoc.metadata['1'];
+            pageHeight = theDoc['height'];
+            pageWidth = theDoc['width'];
+        }
+        console.log('doc');
+        console.log(pageHeight);
+        console.log(pageWidth);
         var imagesInfo = [];
         var imageArr = [];
-        for (var i = 0; i < resp.length; i++) {
-            var current = resp[i];
-            var left = parseFloat(current['left'].replace("%", ""));
-            var top = parseFloat(current['top'].replace("%", ""));
-            if (current.hasOwnProperty('src')) {
-                var imageWidth = parseFloat(current['width'].replace("%", ""));
-                var height = pdfDoc.default.pageHeght * top / 100;
-                var width = pdfDoc.default.pageWidth * left / 100;
-                var imageWidth = pdfDoc.default.pageWidth * imageWidth / 100;
-                let imagePath = path.join(__dirname, '../pdf/images/' + uuid + "-" + i);
-                var imageInfo = {
-                    width: width,
-                    height: height,
-                    path: imagePath,
-                    src: current['src'],
-                    imageWidth: imageWidth
-                }
-                imagesInfo.push(imageInfo);
-                imageArr.push(imageDataURI.outputFile(current['src'], imagePath));
+        for (var x = 0; x < numPages; x++) {
+            pdfDoc.editPage(x + 1);
 
-            } else {
-                var value = current['value'];
-                var height = pdfDoc.default.pageHeght * top / 100;
-                var width = pdfDoc.default.pageWidth * left / 100;
-                pdfDoc.text(value, width, height, {
-                    fontSize: 12,
-                    color: '#000000'
-                });
+            for (var i = 0; i < resp.length; i++) {
+                var current = resp[i];
+                if (parseInt(current['pageNumber']) === x + 1) {
+                    var left = parseFloat(current['left'].replace("%", ""));
+                    var top = parseFloat(current['top'].replace("%", ""));
+                    if (current.hasOwnProperty('src')) {
+                        var imageWidth = parseFloat(current['width'].replace("%", ""));
+                        var height = pageHeight * top / 100;
+                        var width = pageWidth * left / 100;
+                        var imageWidth = pageWidth * imageWidth / 100;
+                        let imagePath = path.join(__dirname, '../pdf/images/' + uuid + "-" + i);
+                        var imageInfo = {
+                            width: width,
+                            height: height,
+                            path: imagePath,
+                            src: current['src'],
+                            imageWidth: imageWidth
+                        }
+                        imagesInfo.push(imageInfo);
+                        imageArr.push(imageDataURI.outputFile(current['src'], imagePath));
+
+                    } else {
+                        var value = current['value'];
+                        var height = pageHeight * (top + 5) / 100;
+                        var width = pageWidth * left / 100;
+                        pdfDoc.text(value, width, height, {
+                            fontSize: 12,
+                            color: '#000000'
+                        });
+                    }
+                }
             }
+            pdfDoc.endPage();
         }
 
+
         Promise.all(imageArr).then(resp => {
-            console.log("images info");
-            console.log(resp);
             for (var i = 0; i < resp.length; i++) {
                 pdfDoc.image(resp[i], imagesInfo[i].width, imagesInfo[i].height, {
                     width: imagesInfo[i].imageWidth, keepAspectRatio: true
@@ -273,7 +291,7 @@ router.post('/api/login', (req, res) => {
             user: user,
             secret: mirrorSecret
         }, secret, {
-                expiresIn: 60
+                expiresIn: '1hr'
             })
         res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
     })

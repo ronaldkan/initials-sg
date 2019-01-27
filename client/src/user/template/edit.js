@@ -1,60 +1,14 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import EditForm from '../form/editForm';
-import MyPopover from '../common/editPopover';
 import moment from 'moment';
-import { getDecryptedJwt } from '../../util/jwtUtil';
-import { Layout, Input, Button, Popover, notification } from 'antd';
-import { Document, Page } from 'react-pdf';
-import BlankImage from '../../img/blank.jpg';
-import Logo from '../../img/logo_sgds.png';
+import { Layout, notification } from 'antd';
 import Navbar from '../common/editNavbar';
 import Footer from '../../static/footer';
+import Pager from '../common/pager';
 import { getRequest, getUrl, postRequest } from '../../util/requestUtil';
 
-const { Header, Content, Sider } = Layout;
-const ButtonGroup = Button.Group;
+const { Content } = Layout;
 const shiftingRatio = 0.5;
 const url = getUrl();
-
-function MailBox(props) {
-    const comp = props.componentList;
-    const test = comp.map((c, i) => {
-        let theComp;
-        if (c.type === 'text') {
-            theComp = <Input
-                id={c.id}
-                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%` }}
-            />;
-        } else if (c.type === 'sign') {
-            theComp = <img src={BlankImage}
-                className='signBox'
-                id={c.id}
-                alt='blank'
-                style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
-            />;
-        }
-
-        return (
-            <div key={i}>
-                <Popover placement="top" content={
-                    <ButtonGroup>
-                        <Button onClick={() => props.shiftLeft(c.id, c.type)} size='large' type="primary" icon="left" />
-                        <Button onClick={() => props.ShiftUp(c.id, c.type)} size='large' type="primary" icon="up" />
-                        <Button onClick={() => props.shiftDown(c.id, c.type)} size='large' type="primary" icon="down" />
-                        <Button onClick={() => props.shiftRight(c.id, c.type)} size='large' type="primary" icon="right" />
-                        <Button onClick={() => props.componentDelete(c.id)} size='large' type="danger" icon="delete" />
-                        <Button onClick={() => props.shorten(c.id, c.type)} size='large' type="danger" icon="minus" />
-                        <Button onClick={() => props.lengthen(c.id, c.type)} size='large' type="danger" icon="plus" />
-                    </ButtonGroup>
-                } trigger="click">
-                    {theComp}
-                </Popover>
-            </div>
-        );
-    });
-    return test;
-}
 
 
 class Edit extends Component {
@@ -73,6 +27,7 @@ class Edit extends Component {
             showPopup: false,
             componentList: [],
             documentId: null,
+            currentPageNumber: 1
         };
     }
 
@@ -83,7 +38,7 @@ class Edit extends Component {
                 this.setState({
                     url: {
                         url: `${url}/api/file?id=${this.props.match.params.document}`,
-                        withCredentials:true
+                        withCredentials: true
                     }
                 });
                 if (!data) {
@@ -109,7 +64,8 @@ class Edit extends Component {
             left: left,
             top: top,
             width: 10,
-            type: type
+            type: type,
+            pageNumber: this.state.currentPageNumber
         };
         if (type === 'text') {
             componentJson['width'] = 15;
@@ -209,11 +165,11 @@ class Edit extends Component {
     }
 
     onItemClick = (e) => {
-        var doc = ReactDOM.findDOMNode(this.refs['abc']);
+        var doc = e.target.parentElement.parentNode;
         var docPosition = doc.getBoundingClientRect();
         var pctX = (e.pageX - docPosition.x) / doc.clientWidth * 100;
         var pctY = ((e.clientY - docPosition.top) / doc.clientHeight * 100);
-        this.setState({ popOverX: pctX + 1, popOverY: pctY - 2, pctX: pctX, pctY: pctY - 1 });
+        this.setState({ popOverX: pctX + 1, popOverY: pctY - 2, pctX: pctX, pctY: pctY - 1, currentPageNumber: e.target.parentElement.dataset['pageNumber'] });
         if (e.target.classList.contains('ant-btn') ||
             e.target.classList.contains('ant-input') ||
             e.target.classList.contains('anticon') ||
@@ -242,7 +198,7 @@ class Edit extends Component {
     }
 
     saveTemplate = () => {
-        var nextUrl = `/demo/view/${this.props.match.params.document}`;
+        var nextUrl = `/platform/view/${this.props.match.params.document}`;
         var historyProp = this.props.history;
         postRequest('/api/save', {
             components: JSON.stringify(this.state.componentList),
@@ -262,31 +218,32 @@ class Edit extends Component {
 
     render() {
 
-        const { pageNumber, url, popOverX, popOverY, showPopup, componentList } = this.state;
-
+        const { url, popOverX, popOverY, showPopup, componentList, numPages } = this.state;
         return (
             <div className="App">
                 <Navbar saveTemplate={this.saveTemplate} />
                 <Layout>
                     <Content style={{ margin: '24px 20% 50px 20%' }}>
-                        <Document
-                            className='mydoc'
-                            ref='abc'
-                            file={url}
-                            onClick={this.onItemClick}
-                            onLoadSuccess={this.onDocumentLoadSuccess}
-                        >
-                            <MailBox componentList={componentList} shiftLeft={this.shiftLeft} ShiftUp={this.ShiftUp} shiftDown={this.shiftDown} shiftRight={this.shiftRight} componentDelete={this.componentDelete} shorten={this.shorten} lengthen={this.lengthen} />
-                            {showPopup ?
-                                <MyPopover
-                                    popOverX={popOverX}
-                                    popOverY={popOverY}
-                                    addTextField={this.addTextField}
-                                    cancelPopUp={this.cancelPopUp}
-                                    addSignField={this.addSignField}
-                                /> : null}
-                            <Page renderAnnotations={false} renderTextLayer={false} pageNumber={pageNumber} scale={1} />
-                        </Document>
+                        <Pager 
+                            showPopup={showPopup}
+                            onDocumentLoadSuccess={this.onDocumentLoadSuccess} 
+                            url={url} 
+                            onItemClick={this.onItemClick} 
+                            popOverX={popOverX} 
+                            popOverY={popOverY} 
+                            addTextField={this.addTextField} 
+                            cancelPopUp={this.cancelPopUp} 
+                            addSignField={this.addSignField}
+                            componentList={componentList}
+                            ShiftUp={this.ShiftUp}
+                            shiftLeft={this.shiftLeft}
+                            shiftRight={this.shiftRight}
+                            shiftDown={this.shiftDown}
+                            numPages={numPages}
+                            componentDelete={this.componentDelete}
+                            lengthen={this.lengthen}
+                            shorten={this.shorten}
+                            />
                     </Content>
                 </Layout>
                 <Footer />

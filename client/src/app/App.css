@@ -1,8 +1,12 @@
 
-@media screen and (min-width: 1024px) {
+/* @media screen and (min-width: 1024px) {
   .App {
-    padding-top: 128px;
+    padding-top: 113px;
   }
+} */
+
+.App {
+  padding-top: 113px;
 }
 
 .bg-secondary {

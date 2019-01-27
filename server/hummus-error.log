@@ -22,3 +22,11 @@
 [ 02/12/2018 11:03:06 ] InputFile::OpenFile, Unexpected Failure. Cannot open file for reading - /Users/ronald/Desktop/initials/server/pdf/images/b9df65f9-8e4c-4697-9a6e-b23121eb1fe9
 [ 02/12/2018 11:03:06 ] ObjectsContext::WriteXrefTable, Unexpected Failure. Object of ID = 69 was not registered as written. probably means it was not written
 [ 02/12/2018 11:03:06 ] PDFWriter::EndPDF, Could not end PDF
+[ 27/01/2019 12:57:22 ] ObjectsContext::WriteXrefStream, Unexpected Failure. Object of ID = 49 was not registered as written. probably means it was not written
+[ 27/01/2019 12:57:22 ] PDFWriter::EndPDF, Could not end PDF
+[ 27/01/2019 13:01:15 ] ObjectsContext::WriteXrefStream, Unexpected Failure. Object of ID = 49 was not registered as written. probably means it was not written
+[ 27/01/2019 13:01:15 ] PDFWriter::EndPDF, Could not end PDF
+[ 27/01/2019 13:03:05 ] ObjectsContext::WriteXrefStream, Unexpected Failure. Object of ID = 49 was not registered as written. probably means it was not written
+[ 27/01/2019 13:03:05 ] PDFWriter::EndPDF, Could not end PDF
+[ 27/01/2019 13:05:51 ] ObjectsContext::WriteXrefStream, Unexpected Failure. Object of ID = 57 was not registered as written. probably means it was not written
+[ 27/01/2019 13:05:51 ] PDFWriter::EndPDF, Could not end PDF

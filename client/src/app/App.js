@@ -27,22 +27,29 @@ class App extends Component {
     />
   );
 
+  RedirectPlatform = ({ location }) => (
+    <Redirect to={{
+      pathname: '/platform/login',
+    }}
+    />
+  );
+
   render() {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/about" exact component={About} />
         <Route path="/faq" exact component={Faq} />
-        <Route path="/demo" exact component={Auth(UserHome)} />
-        <Route path="/demo/job" exact component={Auth(UserJob)} />
-        <Route path="/demo/edit/:document" exact component={UserEdit} />
-        <Route path="/demo/view/:document" exact component={UserView} />
-        <Route path="/demo/account" exact component={UserAccount} />
-        <Route path="/demo/sign/:uuid" exact component={UserSign} />
-        <Route path="/demo/complete" exact component={UserComplete} />
-        <Route path="/demo/completed/:uuid" exact component={UserCompletedView} />
+        <Route path="/platform" exact component={Auth(UserHome)} />
+        <Route path="/platform/job" exact component={Auth(UserJob)} />
+        <Route path="/platform/edit/:document" exact component={Auth(UserEdit)} />
+        <Route path="/platform/view/:document" exact component={Auth(UserView)} />
+        <Route path="/platform/account" exact component={Auth(UserAccount)} />
+        <Route path="/platform/sign/:uuid" exact component={UserSign} />
+        <Route path="/platform/complete" exact component={UserComplete} />
+        <Route path="/platform/completed/:uuid" exact component={Auth(UserCompletedView)} />
         {/* <Route path="/demo/home" exact component={UserLanding} /> */}
-        <Route path="/demo/login" exact component={UserLogin} />
+        <Route path="/platform/login" exact component={UserLogin} />
         <Route component={this.NoMatch} />
       </Switch>
     );

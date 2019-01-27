@@ -31,7 +31,7 @@ export default function withAuth(ComponentToProtect) {
             let view = "";
             if (!loading) {
                 if (redirect) {
-                    view = <Redirect to="/demo/login" />
+                    view = <Redirect to="/platform/login" />
                 } else {
                     view = <ComponentToProtect {...this.props} />
                 }

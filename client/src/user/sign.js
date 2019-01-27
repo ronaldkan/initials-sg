@@ -17,36 +17,102 @@ function MailBox(props) {
     const comp = props.componentList;
     const test = comp.map((c, i) => {
         let theComp;
-        if (c.type === 'text' && !c.value) {
-            theComp = <Input
-                id={c.id}
-                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
-            />;
-        } else if (c.type === 'text' && c.value) {
-            theComp = <Input
-                readOnly
-                className="completedInput"
-                id={c.id}
-                value={c.value}
-                style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
-            />;
-        } else if (c.type === 'sign') {
-            theComp = <img src={BlankImage}
-                className='signBox'
-                onClick={() => props.clickMe(c.id)}
-                id={c.id}
-                alt='blank'
-                style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
-            />;
-        }
+        if (c.pageNumber === props.pageNumber) {
+            if (c.type === 'text' && !c.value) {
+                theComp = <Input
+                    id={c.id}
+                    data-pagenumber={c.pageNumber}
+                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+                />;
+            } else if (c.type === 'text' && c.value) {
+                theComp = <Input
+                    readOnly
+                    className="completedInput"
+                    id={c.id}
+                    data-pagenumber={c.pageNumber}
+                    value={c.value}
+                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+                />;
+            } else if (c.type === 'sign') {
+                theComp = <img src={BlankImage}
+                    className='signBox'
+                    onClick={() => props.clickMe(c.id)}
+                    id={c.id}
+                    data-pagenumber={c.pageNumber}
+                    alt='blank'
+                    style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
+                />;
+            }
 
-        return (
-            <div key={i}>
-                {theComp}
-            </div>
-        );
+            return (
+                <div key={i}>
+                    {theComp}
+                </div>
+            );
+        }
     });
     return test;
+}
+
+function Pages(props) {
+    let pageComponents = [];
+    const {
+        onDocumentLoadSuccess,
+        componentList,
+        url,
+        numPages
+    } = props;
+
+    pageComponents.push(
+        <div>
+            <Document
+                file={url}
+                onLoadSuccess={onDocumentLoadSuccess}
+            >
+                <MailBox
+                    componentList={componentList}
+                    pageNumber={"1"}
+                />
+                <Page renderAnnotations={false} renderTextLayer={false} pageNumber={1} scale={1} />
+            </Document>
+            <br></br>
+        </div>
+    )
+    for (var i = 1; i < numPages; i++) {
+        if (i + 1 !== numPages) {
+            pageComponents.push(
+                <div>
+                    <Document
+                        file={url}
+                        onLoadSuccess={onDocumentLoadSuccess}
+                    >
+                        <MailBox
+                            componentList={componentList}
+                            pageNumber={(i + 1).toString()}
+                        />
+                        <Page renderAnnotations={false} renderTextLayer={false} pageNumber={i + 1} scale={1} />
+                    </Document>
+                    <br></br>
+                </div>
+            )
+        } else {
+            pageComponents.push(
+                <div>
+                    <Document
+                        file={url}
+                        onLoadSuccess={onDocumentLoadSuccess}
+                    >
+                        <MailBox
+                            componentList={componentList}
+                            pageNumber={(i + 1).toString()}
+                        />
+                        <Page renderAnnotations={false} renderTextLayer={false} pageNumber={i + 1} scale={1} />
+                    </Document>
+                </div>
+            )
+        }
+    }
+    return pageComponents;
 }
 
 
@@ -86,7 +152,7 @@ class Sign extends Component {
                 this.setState({
                     url: {
                         url: `${url}/api/file?id=${data.Template.id}`,
-                        withCredentials:true,
+                        withCredentials: true,
                     }, recipient: data.recipient, file: data.Template.file
                 });
                 if (!data.Template) {
@@ -120,7 +186,8 @@ class Sign extends Component {
                 value: list[i].value,
                 left: list[i].style.left,
                 top: list[i].style.top,
-                width: list[i].style.width
+                width: list[i].style.width,
+                pageNumber: list[i].dataset['pagenumber']
             });
             if (list[i].value === "") {
                 notification['error']({
@@ -137,7 +204,8 @@ class Sign extends Component {
                 src: list2[i].src,
                 left: list2[i].style.left,
                 top: list2[i].style.top,
-                width: list2[i].style.width
+                width: list2[i].style.width,
+                pageNumber: list[i].dataset['pagenumber']
             });
         }
         var params = {
@@ -147,7 +215,7 @@ class Sign extends Component {
             file: this.state.file
         }
         putRequest('/api/job', params).then(data => {
-            this.props.history.push('/demo/complete');
+            this.props.history.push('/platform/complete');
         });
     }
 
@@ -186,7 +254,7 @@ class Sign extends Component {
 
 
     render() {
-        const { pageNumber, url, componentList, authorized, secured, uuid } = this.state;
+        const { numPages, url, componentList, authorized, secured, uuid } = this.state;
 
         return (
             <div className="App">
@@ -200,16 +268,7 @@ class Sign extends Component {
                                     {
                                         url ?
                                             <div>
-                                                <Document
-                                                    className='mydoc'
-                                                    ref='abc'
-                                                    file={url}
-                                                    onClick={this.onItemClick}
-                                                    onLoadSuccess={this.onDocumentLoadSuccess}
-                                                >
-                                                    <MailBox componentList={componentList} clickMe={this.clickMe} />
-                                                    <Page renderAnnotations={false} renderTextLayer={false} pageNumber={pageNumber} scale={1} />
-                                                </Document>
+                                                <Pages onDocumentLoadSuccess={this.onDocumentLoadSuccess} numPages={numPages} componentList={componentList} url={url} />
                                                 <Button onClick={() => this.save()} className="sgds-button is-rounded is-medium is-secondary margin--top--lg" type="primary" htmlType="submit" style={{ width: '100%', height: '49.5px' }}>Submit</Button>
                                             </div> :
                                             <div class="row" style={{ minHeight: '60vh', marginTop: '25px' }}>

@@ -28,7 +28,7 @@ class Navbar extends Component {
 
     render() {
         return (
-            <div className="masthead-container" id="navbar">
+            <div className="masthead-container is-fixed" id="navbar">
                 <div className="sgds-masthead">
                     <div className="sgds-container">
                         <div className="row">

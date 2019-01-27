@@ -8,7 +8,7 @@ class EditNavbar extends Component {
         const { saveTemplate } = this.props;
 
         return (
-            <div className="masthead-container" id="navbar">
+            <div className="masthead-container is-fixed" id="navbar">
                 <div className="sgds-masthead">
                     <div className="sgds-container">
                         <div className="row">
@@ -24,7 +24,7 @@ class EditNavbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <Link className="navbar-item" to="/demo">
+                            <Link className="navbar-item" to="/platform">
                                 <img src={Logo} alt="" />
                             </Link>
                             <div id="mobileMain" className="navbar-burger burger" data-target="navbarMain" onClick={this.mobileMenu}>

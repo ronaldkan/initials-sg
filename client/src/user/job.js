@@ -74,7 +74,7 @@ class Job extends Component {
     }
 
     getToHome = () => {
-        this.props.history.push('/demo/home');
+        this.props.history.push('/platform/login');
     }
 
     render() {
@@ -112,7 +112,7 @@ class Job extends Component {
                                             :
                                             item.element.iscompleted ?
                                                 <List.Item>
-                                                    <Card title={item.element.Template.file} extra={<div><Badge style={{ backgroundColor: "#b0a13c" }} count={"Completed"} /> | <a href={`/demo/completed/${item.element.uuid}`} target='_blank'>View</a></div>}>
+                                                    <Card title={item.element.Template.file} extra={<div><Badge style={{ backgroundColor: "#b0a13c" }} count={"Completed"} /> | <a href={`/platform/completed/${item.element.uuid}`} target='_blank'>View</a></div>}>
                                                         <div>{item.element.recipient}<br></br>{item.element.subject}<br></br>{item.date}<br></br>{item.element.completedhash}<br></br><Button onClick={() => this.download(item.element.uuid)} className="sgds-button is-rounded is-secondary" type="primary">Download</Button></div>
                                                     </Card>
                                                 </List.Item>
