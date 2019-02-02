@@ -283,7 +283,7 @@ router.post('/api/login', (req, res) => {
         }, secret, {
                 expiresIn: 60
             })
-        res.cookie('token', cryptr.encrypt(token), { httpOnly: true }).sendStatus(200);
+        res.cookie('token', cryptr.encrypt(token), { expires: new Date(Date.now() + 900000), httpOnly: true }).sendStatus(200);
     })
 });
 
@@ -303,7 +303,7 @@ router.post('/api/adminLogin', (req, res) => {
         }, secret, {
             expiresIn: 60
         })
-        res.cookie('adminToken', cryptr.encrypt(adminToken), { httpOnly: true }).sendStatus(200);
+        res.cookie('adminToken', cryptr.encrypt(adminToken), { expires: new Date(Date.now() + 900000), httpOnly: true }).sendStatus(200);
         res.sendStatus(200);
     })
 });

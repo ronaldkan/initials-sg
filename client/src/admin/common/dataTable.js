@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Modal } from 'antd';
 import _ from 'lodash';
 import { getRequest } from '../../util/requestUtil';
+import AddAdminForm from '../form/addAdminForm';
 import moment from 'moment';
 
 class DataTable extends Component {
@@ -10,7 +11,8 @@ class DataTable extends Component {
         this.state = {
             selectedRowKeys: [],  // Check here to configure the default column
             loading: false,
-            adminData: []
+            adminData: [],
+            visible: false
         };
     }
 
@@ -38,8 +40,20 @@ class DataTable extends Component {
         });
     }
 
+    handleOk = () => {
+        this.setState({
+            visible: false
+        })
+    }
+
+    handleCancel = () => {
+        this.setState({
+            visible: false
+        })
+    }
+
     start = () => {
-        this.setState({ loading: true });
+        this.setState({ loading: true, visible: true });
         // ajax request after empty completing
         setTimeout(() => {
           this.setState({
@@ -56,7 +70,7 @@ class DataTable extends Component {
 
     render() {
         const { tableName, columnNames } = this.props;
-        const { loading, selectedRowKeys, adminData } = this.state;
+        const { loading, selectedRowKeys, adminData, visible, confirmLoading } = this.state;
 
         const rowSelection = {
             selectedRowKeys,
@@ -94,6 +108,16 @@ class DataTable extends Component {
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
+                <Modal
+                title="Admin Account Creation Form"
+                visible={visible}
+                onOk={this.handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={this.handleCancel}
+                >
+                    <h4>Admin Details</h4>
+                    <AddAdminForm/>
+                </Modal>
               </div>
               <Table rowSelection={rowSelection} columns={columns} dataSource={adminData} />
             </div>
