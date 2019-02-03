@@ -283,6 +283,7 @@ router.post('/api/login', (req, res) => {
         }, secret, {
                 expiresIn: 60
             })
+        // 15 mins cookie - 90000ms
         res.cookie('token', cryptr.encrypt(token), { expires: new Date(Date.now() + 900000), httpOnly: true }).sendStatus(200);
     })
 });
@@ -303,6 +304,7 @@ router.post('/api/adminLogin', (req, res) => {
         }, secret, {
             expiresIn: 60
         })
+        // 15 mins cookie - 90000ms
         res.cookie('adminToken', cryptr.encrypt(adminToken), { expires: new Date(Date.now() + 900000), httpOnly: true }).sendStatus(200);
         res.sendStatus(200);
     })
@@ -311,6 +313,12 @@ router.post('/api/adminLogin', (req, res) => {
 router.get('/api/adminLogout', (req, res) => {
     res.clearCookie("adminToken");
     res.sendStatus(200);
+});
+
+router.post('/api/admin', withAdminAuth, (req, res) => {
+    admin.createAdmin(req.body).then(admin => {
+        res.json(admin);
+    })
 });
 
 router.get('/api/checkToken', withAuth, (req, res) => {

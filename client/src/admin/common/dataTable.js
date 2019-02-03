@@ -111,12 +111,13 @@ class DataTable extends Component {
                 <Modal
                 title="Admin Account Creation Form"
                 visible={visible}
+                footer={null}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={this.handleCancel}
                 >
                     <h4>Admin Details</h4>
-                    <AddAdminForm/>
+                    <AddAdminForm closeModal={this.handleCancel}/>
                 </Modal>
               </div>
               <Table rowSelection={rowSelection} columns={columns} dataSource={adminData} />
