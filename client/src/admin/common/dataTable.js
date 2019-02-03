@@ -103,7 +103,7 @@ class DataTable extends Component {
                   disabled={hasSelected}
                   loading={loading}
                 >
-                  New Admin (Not implemented yet)
+                  New Admin
                 </Button>
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
