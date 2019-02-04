@@ -72,6 +72,12 @@ class Sidebar extends Component {
                                             <small>Admin Accounts</small>
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/admin/org"
+                                            className="padding--sm">
+                                            <small>Organizations</small>
+                                        </Link>
+                                    </li>
                                     {/* <li>
                                         <Link to="/admin"
                                             className="padding--sm">

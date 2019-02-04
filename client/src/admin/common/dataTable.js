@@ -74,7 +74,7 @@ class DataTable extends Component {
     }
 
     render() {
-        const { tableName, columnNames } = this.props;
+        const { tableName, columnNames, entity } = this.props;
         const { loading, selectedRowKeys, adminData, visible, confirmLoading } = this.state;
 
         const rowSelection = {
@@ -102,13 +102,14 @@ class DataTable extends Component {
           return (
             <div>
               <div style={{ marginBottom: 16 }}>
+              <h4 style={{ marginBottom: 10 }}>{tableName}</h4>
                 <Button
                   type="primary"
                   onClick={this.start}
                   disabled={hasSelected}
                   loading={loading}
                 >
-                  New Admin
+                  {"New "+entity}
                 </Button>
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}

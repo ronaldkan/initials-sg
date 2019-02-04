@@ -16,10 +16,10 @@ class Account extends Component {
     }
 
     render() {
-        const columnNames = ["key", "id", "username", "createdAt", "updatedAt"];
-        const tableName = "Administrators";
-        const apiName = "/api/checkAdminList";
-        const entity = "Admin";
+        const columnNames = ["key", "id", "name", "description", "createdAt", "updatedAt"];
+        const tableName = "Organisations";
+        const apiName = "/api/checkOrgList";
+        const entity = "Organization";
 
         return (
             <div className="App">
