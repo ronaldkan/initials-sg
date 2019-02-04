@@ -30,37 +30,36 @@ class AddAdminForm extends Component {
                 <FormItem>
                     {getFieldDecorator('firstname', {
                         rules: [{ required: true, message: 'First name is required' }],
+                        intialValue:  "",
                     })(
-                        <div>
-                            <Input placeholder="First Name" />
-                        </div>
+                        <Input placeholder="First Name" />
+                       
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('lastname', {
                         rules: [{ required: true, message: 'Last name is required' }],
+                        intialValue:  "",
                     })(
-                        <div>
-                            <Input placeholder="Last Name" />
-                        </div>
+                        <Input placeholder="Last Name" />
+                       
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('email', {
                         rules: [{ required: true, message: 'Email is required' }],
+                        intialValue:  "",
                     })(
-                        <div>
-                            <Input  placeholder="Email" />
-                        </div>
+                        <Input  placeholder="Email" />
+                       
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {
                         rules: [{ required: true, message: 'password is required' }],
+                        intialValue:  "",
                     })(
-                        <div>
-                            <Input type="password" placeholder="Password" />
-                        </div>
+                        <Input type="password" placeholder="Password" />
                     )}
                 </FormItem>
                 <Button  type="primary" htmlType="submit" style={{ width: '100%', marginBottom: '15px' }}>Add</Button>

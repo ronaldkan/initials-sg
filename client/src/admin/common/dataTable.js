@@ -18,6 +18,10 @@ class DataTable extends Component {
 
     componentDidMount = () => {
         
+        this.getLatestData();
+    }
+
+    getLatestData = () => {
         getRequest(this.props.apiName, {})
         .then(response => response.data)
         .then(data => {
@@ -50,6 +54,7 @@ class DataTable extends Component {
         this.setState({
             visible: false
         })
+        this.getLatestData();
     }
 
     start = () => {
@@ -116,7 +121,6 @@ class DataTable extends Component {
                 confirmLoading={confirmLoading}
                 onCancel={this.handleCancel}
                 >
-                    <h4>Admin Details</h4>
                     <AddAdminForm closeModal={this.handleCancel}/>
                 </Modal>
               </div>

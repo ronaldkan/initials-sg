@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import { Link } from 'react-router-dom';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
@@ -67,7 +67,8 @@ class Home extends Component {
                                 <Sidebar getToHome={this.getToHome}/>
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
-                                Manage your admin stuffs here.
+                                This the admin's home page
+                                {/* <Link className="navbar-item" to="/"></Link> */}
                             </div>
                         </div>
                     </div>

@@ -19,9 +19,8 @@ class AddAdminForm extends Component {
                 this.setState({
                     loading: true
                 });
-                values['OrganizationId'] = 1;
                 postRequest('/api/admin', values).then(data => {
-                    document.getElementById("addAdminPasswordForm").reset();
+                    this.props.form.resetFields();
                     this.setState({ loading: false });
                     notification.open({
                         message: 'Success!',
@@ -50,25 +49,29 @@ class AddAdminForm extends Component {
         const { loading } = this.state;
 
         return (
-            <Form id='addAdminPasswordForm' onSubmit={this.handleSubmit} style={{ margin: '20px 20px 20px 20px' }}>
-                <FormItem>
+            <Form id='addAdminPasswordForm' onSubmit={this.handleSubmit} style={{ margin: '0px 20px 20px 20px' }}>
+                <Form.Item
+                 label="Username"
+                 labelCol={{ span: 5 }}
+                >
                     {getFieldDecorator('username', {
                         rules: [{ required: true, message: 'user name is required' }],
+                        intialValue:  "",
                     })(
-                        <div>
-                            <Input placeholder="Username" />
-                        </div>
+                        <Input placeholder="A New Admin" />
                     )}
-                </FormItem>
-                <FormItem>
+                </Form.Item>
+                <Form.Item
+                label="Password"
+                labelCol={{ span: 5 }}
+                >
                     {getFieldDecorator('password', {
                         rules: [{ required: true, message: 'password is required' }],
+                        intialValue:  "",
                     })(
-                        <div>
-                            <Input type="password" placeholder="Password" />
-                        </div>
+                        <Input type="password" placeholder="A New Password" />
                     )}
-                </FormItem>
+                </Form.Item>
                 <Button  
                 type="primary" 
                 htmlType="submit" 
