@@ -17,7 +17,7 @@ class Account extends Component {
 
     render() {
         const columnNames = ["key", "id", "name", "description", "createdAt", "updatedAt"];
-        const tableName = "Organisations";
+        const tableName = "Organizations";
         const apiName = "/api/admin_organization";
         const entity = "Organization";
 

@@ -3,6 +3,7 @@ import { Table, Button, Modal } from 'antd';
 import _ from 'lodash';
 import { getRequest } from '../../util/requestUtil';
 import AddAdminForm from '../form/addAdminForm';
+import AddOrganizationForm from '../form/addOrganizationForm';
 import moment from 'moment';
 
 class DataTable extends Component {
@@ -85,19 +86,6 @@ class DataTable extends Component {
         const columns = keylessColumnNames.map((colName) => {
             return { title: _.startCase(colName), dataIndex: colName };
         });
-
-        //   var data = [];
-        //   for (let i = 0; i < 5; i++) {
-        //   data.push({
-        //       key: i,
-        //       id: i,
-        //       username: 32,
-        //       createdAt: `London, Park Lane no. ${i}`,
-        //       updatedAt: `London, Park Lane no. ${i}`,
-        //   });
-        //   }
-
-
           const hasSelected = selectedRowKeys.length > 0;
           return (
             <div>
@@ -115,14 +103,15 @@ class DataTable extends Component {
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
                 <Modal
-                title="Admin Account Creation Form"
+                title={tableName + " Creation Form"}
                 visible={visible}
                 footer={null}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={this.handleCancel}
                 >
-                    <AddAdminForm closeModal={this.handleCancel}/>
+                {tableName === 'Organizations' ?  <AddOrganizationForm closeModal={this.handleCancel}/ > : ''}   
+                {tableName === 'Administrators' ? <AddAdminForm closeModal={this.handleCancel}/> : ''}   
                 </Modal>
               </div>
               <Table rowSelection={rowSelection} columns={columns} dataSource={adminData} />

@@ -23,7 +23,7 @@ class AddOrganizationForm extends Component {
                     this.setState({ loading: false });
                     notification.open({
                         message: 'Success!',
-                        description: 'A New Admin been added!',
+                        description: 'A New Org been added!',
                         icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
                       });
                     closeModal();
@@ -50,7 +50,7 @@ class AddOrganizationForm extends Component {
         return (
             <Form id='addOrgForm' onSubmit={this.handleSubmit} style={{ margin: '0px 20px 20px 20px' }}>
                 <Form.Item
-                 label="Organization Name"
+                 label="Name"
                  labelCol={{ span: 5 }}
                 >
                     {getFieldDecorator('name', {
@@ -61,7 +61,7 @@ class AddOrganizationForm extends Component {
                     )}
                 </Form.Item>
                 <Form.Item
-                label="Organization Description"
+                label="Description"
                 labelCol={{ span: 5 }}
                 >
                     {getFieldDecorator('description', {
