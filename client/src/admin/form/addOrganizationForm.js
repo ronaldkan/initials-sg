@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, notification, Icon } from 'antd';
 import { postRequest } from '../../util/requestUtil';
-import { truncate } from 'fs';
 
 const FormItem = Form.Item;
 
-class AddAdminForm extends Component {
+class AddOrganizationForm extends Component {
     constructor() {
         super();
         this.state = { loading: false };
@@ -19,7 +18,7 @@ class AddAdminForm extends Component {
                 this.setState({
                     loading: true
                 });
-                postRequest('/api/admin', values).then(data => {
+                postRequest('/api/admin_organization', values).then(data => {
                     this.props.form.resetFields();
                     this.setState({ loading: false });
                     notification.open({
@@ -36,7 +35,7 @@ class AddAdminForm extends Component {
                   console.error(e);
                   notification.open({
                     message: 'Failure!',
-                    description: 'Add admin failed!',
+                    description: 'Add org failed!',
                     icon: <Icon type="frown" style={{ color: 'red' }} />,
                   });
                 });
@@ -49,27 +48,27 @@ class AddAdminForm extends Component {
         const { loading } = this.state;
 
         return (
-            <Form id='addAdminPasswordForm' onSubmit={this.handleSubmit} style={{ margin: '0px 20px 20px 20px' }}>
+            <Form id='addOrgForm' onSubmit={this.handleSubmit} style={{ margin: '0px 20px 20px 20px' }}>
                 <Form.Item
-                 label="Username"
+                 label="Organization Name"
                  labelCol={{ span: 5 }}
                 >
-                    {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'user name is required' }],
+                    {getFieldDecorator('name', {
+                        rules: [{ required: true, message: 'Name is required' }],
                         intialValue:  "",
                     })(
-                        <Input placeholder="A New Admin" />
+                        <Input placeholder="Set name for organzation" />
                     )}
                 </Form.Item>
                 <Form.Item
-                label="Password"
+                label="Organization Description"
                 labelCol={{ span: 5 }}
                 >
-                    {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'password is required' }],
+                    {getFieldDecorator('description', {
+                        rules: [{ required: true, message: 'Description is required' }],
                         intialValue:  "",
                     })(
-                        <Input type="password" placeholder="A New Password" />
+                        <Input placeholder="Set description for organization" />
                     )}
                 </Form.Item>
                 <Button  
@@ -83,4 +82,4 @@ class AddAdminForm extends Component {
     }
 }
 
-export default Form.create()(AddAdminForm);
+export default Form.create()(AddOrganizationForm);

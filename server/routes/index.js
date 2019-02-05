@@ -266,6 +266,12 @@ router.get('/api/admin_organization', withAdminAuth, (req, res) => {
     })
 });
 
+router.post('/api/admin_organization', withAdminAuth, (req, res) => {
+    organization.createOrganization(req.body).then(org => {
+        res.json(org);
+    });
+});
+
 router.get('/api/user', withAuth, (req, res) => {
     user.getAll().then(users => {
         res.json(users);
