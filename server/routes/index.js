@@ -260,6 +260,12 @@ router.get('/api/organization', withAuth, (req, res) => {
     })
 });
 
+router.get('/api/admin_organization', withAdminAuth, (req, res) => {
+    organization.getAll().then(orgs => {
+        res.json(orgs);
+    })
+});
+
 router.get('/api/user', withAuth, (req, res) => {
     user.getAll().then(users => {
         res.json(users);
