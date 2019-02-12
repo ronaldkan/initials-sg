@@ -20,7 +20,7 @@ function MailBox(props) {
                     className='sendinput'
                     // onClick={() => props.clickInput(c.id)}
                     id={c.id}
-                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 1, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 1, height: `${c.height}%`, width: `${c.width}%`, fontSize: '1vw' }}
                 />;
             } else if (c.type === 'sign') {
                 theComp = <img src={BlankImage}

@@ -15,14 +15,13 @@ function MailBox(props) {
     const comp = props.componentList;
     const test = comp.map((c, i) => {
         let theComp;
-        console.log(c);
         if (c.pageNumber === props.pageNumber) {
             if (c.hasOwnProperty('src') === false) {
                 theComp = <Input
                     className="completedInput"
                     id={c.id}
                     value={c.value}
-                    style={{ position: 'absolute', left: `${c.left}`, top: `${c.top}`, zIndex: 1, width: `${c.width}`, fontSize: '20px' }}
+                    style={{ position: 'absolute', left: `${c.left}`, top: `${c.top}`, zIndex: 1, width: `${c.width}`, fontSize: '1vw' }}
                     readonly />;
             } else {
                 theComp = <img src={c.src}

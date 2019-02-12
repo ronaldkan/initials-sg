@@ -22,7 +22,7 @@ function MailBox(props) {
                 theComp = <Input
                     id={c.id}
                     data-pagenumber={c.pageNumber}
-                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 1, height: `${c.height}%`, width: `${c.width}%`, fontSize: '1vw' }}
                 />;
             } else if (c.type === 'text' && c.value) {
                 theComp = <Input
@@ -31,7 +31,7 @@ function MailBox(props) {
                     id={c.id}
                     data-pagenumber={c.pageNumber}
                     value={c.value}
-                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 99, height: `${c.height}%`, width: `${c.width}%`, fontSize: '20px' }}
+                    style={{ position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, zIndex: 1, height: `${c.height}%`, width: `${c.width}%`, fontSize: '1vw' }}
                 />;
             } else if (c.type === 'sign') {
                 theComp = <img src={BlankImage}
@@ -40,7 +40,7 @@ function MailBox(props) {
                     id={c.id}
                     data-pagenumber={c.pageNumber}
                     alt='blank'
-                    style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 99 }}
+                    style={{ border: '1px solid', borderColor: '#C2C2C2', position: 'absolute', left: `${c.left}%`, top: `${c.top}%`, width: `${c.width}%`, zIndex: 1 }}
                 />;
             }
 
@@ -60,7 +60,8 @@ function Pages(props) {
         onDocumentLoadSuccess,
         componentList,
         url,
-        numPages
+        numPages,
+        clickMe
     } = props;
 
     pageComponents.push(
@@ -72,6 +73,7 @@ function Pages(props) {
                 <MailBox
                     componentList={componentList}
                     pageNumber={"1"}
+                    clickMe={clickMe}
                 />
                 <Page renderAnnotations={false} renderTextLayer={false} pageNumber={1} scale={1} />
             </Document>
@@ -205,7 +207,7 @@ class Sign extends Component {
                 left: list2[i].style.left,
                 top: list2[i].style.top,
                 width: list2[i].style.width,
-                pageNumber: list[i].dataset['pagenumber']
+                // pageNumber: list[i].dataset['pagenumber']
             });
         }
         var params = {
@@ -268,7 +270,7 @@ class Sign extends Component {
                                     {
                                         url ?
                                             <div>
-                                                <Pages onDocumentLoadSuccess={this.onDocumentLoadSuccess} numPages={numPages} componentList={componentList} url={url} />
+                                                <Pages clickMe={this.clickMe} onDocumentLoadSuccess={this.onDocumentLoadSuccess} numPages={numPages} componentList={componentList} url={url} />
                                                 <Button onClick={() => this.save()} className="sgds-button is-rounded is-medium is-secondary margin--top--lg" type="primary" htmlType="submit" style={{ width: '100%', height: '49.5px' }}>Submit</Button>
                                             </div> :
                                             <div class="row" style={{ minHeight: '60vh', marginTop: '25px' }}>
