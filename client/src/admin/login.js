@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Alert } from 'antd';
-import { postRequest } from '../util/requestUtil';
+import { postRequest } from '../util/requestUtil'; 
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 
@@ -18,20 +18,22 @@ class Login extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                postRequest('/api/login', values).then(resp => {
+                postRequest('/api/adminLogin', values).then(resp => {
                     if (resp.status === 200) {
-                        this.props.history.push('/platform');
+                        this.props.history.push('/admin/home');
                     } else {
                         this.setState({
                             error: true
                         });
-                    }
-                }).catch((e) => {
+                    }   
+                }).catch((e) => 
+                {
                     this.setState({
                         error: true
                     });
-                    console.error(e);
+                  console.error(e);
                 });
+                 
             }
         });
     }
@@ -42,20 +44,20 @@ class Login extends Component {
 
         return (
             <div className="App">
-                {error ? <Alert showIcon={false} type="error" message="Login Failed" banner /> : ''}
+            { error ? <Alert showIcon={false} type="error" message="Login Failed" banner /> : '' }
                 <DefaultNavbar />
-                <section className="sgds-section" style={{ backgroundColor: '#F2F2F2' }}>
+                <section className="sgds-section" style={{ backgroundColor:'#F2F2F2' }}>
                     <div className="sgds-container">
                         <div className="row" style={{ minHeight: '60vh' }}>
                             <div className="login-page">
                                 <div className="form" style={{ marginBottom: "150px" }}>
                                     <div style={{ marginBottom: 16 }}>
-                                        <h3 style={{ color: "#b0a13c" }}>Welcome</h3>
+                                        <h3 style={{ color: "#b0a13c" }}>Welcome to Admin Page</h3>
                                     </div>
 
                                     <Form onSubmit={this.handleSubmit} className="login-form">
                                         <FormItem>
-                                            {getFieldDecorator('email', {
+                                            {getFieldDecorator('username', {
                                                 rules: [{ required: true, message: 'Please input your Username!' }],
                                             })(
                                                 <Input prefix={<Icon type="user" style={{ fontSize: '13px' }} />} placeholder="Username" />,

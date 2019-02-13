@@ -21,3 +21,8 @@ export function getUserIdFromJwt() {
     var user = jwt.userId[0];
     return user.firstname + " " + user.lastname;
 }
+
+
+export function decryptJobData(data) {
+    return cryptr.decrypt(data);
+}

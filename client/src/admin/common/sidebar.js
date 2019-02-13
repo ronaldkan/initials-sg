@@ -5,17 +5,17 @@ import { getRequest } from '../../util/requestUtil';
 class Sidebar extends Component {
 
     componentDidMount() {
-        var currentPath = window.location.pathname;
-        currentPath = currentPath.replace("/platform", "");
-        if (currentPath.startsWith("/job") === true) {
-            document.getElementById("idJob").classList.add("is-active");
-        } else {
-            document.getElementById("idTemplate").classList.add("is-active");
-        }
+        // var currentPath = window.location.pathname;
+        // currentPath = currentPath.replace("/admin", "");
+        // if (currentPath.startsWith("/job") === true) {
+        //     document.getElementById("idJob").classList.add("is-active");
+        // } else {
+        //     document.getElementById("idTemplate").classList.add("is-active");
+        // }
     }
 
     logout = (getToHome) => {
-        getRequest('/api/logout', {}).then(resp => {
+        getRequest('/api/adminLogout', {}).then(resp => {
             if (resp.status === 200) {
                 // getToHome();  
                 window.location.reload(); // force refresh temp fix icon resize
@@ -34,52 +34,52 @@ class Sidebar extends Component {
                 <div className="sidenav" style={{ minHeight: '60vh' }}>
                     <aside className="sgds-menu sidebar__inner">
                         <ul className="sgds-menu-list">
-                            <li>
-                                <a href="/platform"
+                            {/* <li>
+                                <a href="/admin"
                                     className="is-uppercase has-text-weight-semibold is-active">
                                     General
                                 </a>
                                 <ul>
                                     <li>
-                                        <Link id="idTemplate" to="/platform"
+                                        <Link id="idTemplate" to="/admin"
                                             className="padding--sm">
                                             <small>Template</small>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link id="idJob" to="/platform/job"
+                                        <Link id="idJob" to="/admin/job"
                                             className="padding--sm">
                                             <small>Job</small>
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link to="/platform"
+                                    <li>
+                                        <Link to="/admin"
                                             className="padding--sm">
                                             <small>Activity</small>
                                         </Link>
-                                    </li> */}
+                                    </li>
                                 </ul>
-                            </li>
+                            </li> */}
                             <li>
-                                <a href="/platform"
+                                <a href="/admin"
                                     className="is-uppercase has-text-weight-semibold is-active">
-                                    Account Setting
+                                    Administrator
                                 </a>
                                 <ul>
+                                    <li>
+                                        <Link to="/admin/account"
+                                            className="padding--sm">
+                                            <small>Admin Accounts</small>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/admin/org"
+                                            className="padding--sm">
+                                            <small>Organizations</small>
+                                        </Link>
+                                    </li>
                                     {/* <li>
-                                        <Link to="/platform"
-                                            className="padding--sm">
-                                            <small>Organization</small>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/platform/account"
-                                            className="padding--sm">
-                                            <small>Account</small>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/platform"
+                                        <Link to="/admin"
                                             className="padding--sm">
                                             <small>Usage</small>
                                         </Link>

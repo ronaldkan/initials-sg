@@ -9,7 +9,7 @@ const withAuth = function (req, res, next) {
         req.query.token ||
         req.headers['x-access-token'] ||
         req.cookies.token;
-
+        
     if (!token) {
         res.clearCookie("token").status(401).send('Unauthorized: No token provided');
     } else {
@@ -23,4 +23,25 @@ const withAuth = function (req, res, next) {
         });
     }
 }
-module.exports = withAuth;
+
+const withAdminAuth = function (req, res, next) {
+    const adminToken =
+        req.body.adminToken ||
+        req.query.adminToken ||
+        req.headers['x-access-token'] ||
+        req.cookies.adminToken;
+
+    if (!adminToken) {
+        res.clearCookie("adminToken").status(401).send('Unauthorized: No token provided');
+    } else {
+        jwt.verify(cryptr.decrypt(adminToken), secret, function (err, decoded) {
+            if (err) {
+                res.clearCookie("adminToken").status(401).send('Unauthorized: Invalid adminToken');
+            } else {
+                req.importedUser = decoded.user;
+                next();
+            }
+        });
+    }
+}
+module.exports = { withAuth, withAdminAuth };

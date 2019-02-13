@@ -11,6 +11,7 @@ const index = require('./routes/index');
 const models = require('./models');
 var organization = require('./services/organization');
 var user = require('./services/user');
+var admin = require('./services/admin');
 const currentPath = path.join(__dirname) + '/pdf';
 const templatePath = currentPath + '/templates';
 const generatePath = currentPath + '/generated';
@@ -63,8 +64,18 @@ models.Organization.sync().then(data => {
 });
 
 models.Administrator.sync().then(data => {
-
-    console.log("Administrator synced");
+    models.Administrator.sync().then(data => {
+        admin.getAll().then(admins => {
+            if (admins.length === 0) {
+                admin.createAdmin({
+                    username: 'administrator',
+                    password: 'administrator'
+                });
+            }
+        })
+        console.log("Administrator synced");
+    });
+    
 });
 
 app.use(cors({ credentials: true, origin: ['http://localhost:3000'] }));

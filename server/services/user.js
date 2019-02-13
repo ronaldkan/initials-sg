@@ -21,11 +21,10 @@ module.exports = {
             OrganizationId: body.organizationId
         })
     },
-    getUserForAuth: function(body) {
-        return model.findAll({
+    getUserForAuth: function(email) {
+        return model.findOne({
             where: {
-                email: body.email,
-                password: body.password
+                email: email
             }
         })
     }

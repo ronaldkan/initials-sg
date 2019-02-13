@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
-import { getDecryptedJwt } from '../util/jwtUtil';
+import { decryptJobData } from '../util/jwtUtil';
 import { Layout, Input } from 'antd';
 import { Document, Page } from 'react-pdf';
 import { getRequest, getUrl } from '../util/requestUtil';
@@ -131,7 +131,7 @@ class View extends Component {
                 if (!data.Template) {
                     return;
                 }
-                let resp = JSON.parse(data.data);
+                let resp = JSON.parse(decryptJobData(data.data));
                 this.setState({ componentList: resp });
             });
 
