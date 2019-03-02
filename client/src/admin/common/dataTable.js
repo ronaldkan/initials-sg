@@ -112,6 +112,7 @@ class DataTable extends Component {
                 >
                 {tableName === 'Organizations' ?  <AddOrganizationForm closeModal={this.handleCancel}/ > : ''}   
                 {tableName === 'Administrators' ? <AddAdminForm closeModal={this.handleCancel}/> : ''}   
+                {tableName === 'AddressBookEntries' ? <AddAdminForm closeModal={this.handleCancel}/> : ''}   
                 </Modal>
               </div>
               <Table rowSelection={rowSelection} columns={columns} dataSource={adminData} />

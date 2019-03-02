@@ -1,15 +1,13 @@
 const models = require('../models');
-const model = models.User;
+const model = models.AddressBookEntry;
 
 module.exports = {
     getAll: function() {
+        console.log('test');
         return model.findAll({
             order: [
                 ['id', 'DESC']
-            ],
-            include: [{
-                model: models.Organization
-            }]
+            ]
         })
     },
     createEntry: function(body) {
