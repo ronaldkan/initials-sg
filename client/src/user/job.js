@@ -5,7 +5,7 @@ import saveAs from 'file-saver';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
-import { List, Button, Badge, Card } from 'antd';
+import { List, Button, Badge, Card, Table } from 'antd';
 import { getRequest, getBlobRequest, putRequest } from '../util/requestUtil';
 
 
@@ -46,9 +46,21 @@ class Job extends Component {
                     if (element.isSigned || element.isCancelled) {
                         date = moment(element.updatedAt).format('YYYY-MM-DD HH:mm');
                     }
+                    var status = 'Pending';
+                    if (element.iscancelled) {
+                        status = 'Cancelled';
+                    } else if (element.iscompleted) {
+                        status = 'Completed';
+                    }
+                    var template = element.Template;
                     myData.push({
                         date: date,
-                        element: element
+                        file: template.file,
+                        recipient: element.recipient,
+                        iscompleted: element.iscompleted,
+                        iscancelled: element.iscancelled,
+                        uuid: element.uuid,
+                        status: status
                     });
                 });
 
@@ -80,6 +92,38 @@ class Job extends Component {
     render() {
         const { jobs } = this.state;
 
+        const columns = [{
+            title: 'Name',
+            dataIndex: 'file',
+            key: 'file',
+        }, {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+        }, {
+            title: 'Recipient',
+            dataIndex: 'recipient',
+            key: 'recipient',
+        }, {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+        }, {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                record.iscancelled ?
+                    null :
+                    record.iscompleted ?
+                        <span>
+                            <a href={`/platform/completed/${record.uuid}`} target='_blank'>View</a>
+                        </span> :
+                        <span>
+                            <a onClick={() => this.cancel(record.uuid)}>Cancel</a>
+                        </span>
+            ),
+        }];
+
         return (
             <div className="App">
                 <DefaultNavbar />
@@ -87,10 +131,10 @@ class Job extends Component {
                     <div className="sgds-container">
                         <div className="row">
                             <div className="col is-3 is-hidden-touch has-side-nav">
-                                <Sidebar getToHome={this.getToHome}/>
+                                <Sidebar getToHome={this.getToHome} />
                             </div>
                             <div className="col is-9 is-hidden-touch has-side-nav">
-                                <List
+                                {/* <List
                                     grid={{ gutter: 16, column: 3 }}
                                     style={{ backgroundColor: 'FFFFFF' }}
                                     dataSource={jobs}
@@ -123,7 +167,8 @@ class Job extends Component {
                                                     </Card>
                                                 </List.Item>
                                     )}
-                                />
+                                /> */}
+                                <Table dataSource={jobs} columns={columns} />
                             </div>
                         </div>
                     </div>

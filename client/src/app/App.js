@@ -56,7 +56,6 @@ class App extends Component {
         <Route path="/platform/sign/:uuid" exact component={UserSign} />
         <Route path="/platform/complete" exact component={UserComplete} />
         <Route path="/platform/completed/:uuid" exact component={Auth(UserCompletedView)} />
-        {/* <Route path="/demo/home" exact component={UserLanding} /> */}
         <Route path="/platform/login" exact component={UserLogin} />
         <Route path="/admin" exact component={AuthAdmin(AdminHome)} />
         <Route path="/admin/login" exact component={AdminLogin} />

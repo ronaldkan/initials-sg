@@ -22,7 +22,7 @@ class DefaultNavbar extends Component {
                 <nav className="navbar is-transparent">
                     <div className="sgds-container">
                         <div className="navbar-brand">
-                            <Link className="navbar-item" to="/">
+                            <Link className="navbar-item" to="/platform/">
                                 <img src={Logo} alt="" />
                             </Link>
                         </div>

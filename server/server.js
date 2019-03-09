@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+var bcrypt = require('bcrypt');
 const app = express();
 var cors = require('cors');
 const port = process.env.PORT || 5000;
@@ -50,12 +51,14 @@ models.Organization.sync().then(data => {
                     'name': 'GovTech',
                     'description': 'GovTech Test'
                 }).then(org => {
-                    user.createUser({
-                        email: 'admin',
-                        password: '123',
-                        firstname: 'admin',
-                        lastname: 'account',
-                        OrganizationId: org.id
+                    bcrypt.hash('123', 10, function (err, hash) {
+                        user.createUser({
+                            email: 'admin',
+                            password: hash,
+                            firstname: 'admin',
+                            lastname: 'account',
+                            OrganizationId: org.id
+                        });
                     });
                 });
             }

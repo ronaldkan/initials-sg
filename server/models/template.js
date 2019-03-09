@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true
     });
   Template.associate = function (models) {
-
+    Template.belongsTo(models.User);
     // associations can be defined here
   };
   return Template;

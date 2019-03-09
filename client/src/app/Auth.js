@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { getRequest } from '../util/requestUtil'; 
+import { getRequest } from '../util/requestUtil';
 
 export default function withAuth(ComponentToProtect) {
 
@@ -21,11 +21,10 @@ export default function withAuth(ComponentToProtect) {
                     }
                 })
                 .catch(err => {
-                    console.error(err);
                     this.setState({ loading: false, redirect: true });
                 });
         }
-        
+
         render() {
             const { loading, redirect } = this.state;
             let view = "";

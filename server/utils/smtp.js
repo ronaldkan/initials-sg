@@ -16,7 +16,10 @@ module.exports = {
     sendEmail: function (params) {
         var filePath = __dirname + '/mail.ejs';
         var compiled = ejs.compile(fs.readFileSync(filePath, 'utf8'));
-
+        params.message = params.message.replace("{{name}}", params.name);
+        params.message = params.message.replace("{{ name }}", params.name);
+        params.message = params.message.replace("{{name }}", params.name);
+        params.message = params.message.replace("{{ name}}", params.name);
         var mailOptions = {
             from: "hello@initial.sg",
             to: params.to,

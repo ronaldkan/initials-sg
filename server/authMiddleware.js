@@ -9,8 +9,10 @@ const withAuth = function (req, res, next) {
         req.query.token ||
         req.headers['x-access-token'] ||
         req.cookies.token;
+
+    console.log(req.cookies);
         
-    if (!token) {
+    if (!token || token === undefined) {
         res.clearCookie("token").status(401).send('Unauthorized: No token provided');
     } else {
         jwt.verify(cryptr.decrypt(token), secret, function (err, decoded) {

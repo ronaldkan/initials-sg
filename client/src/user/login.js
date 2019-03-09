@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Alert } from 'antd';
 import { postRequest } from '../util/requestUtil';
+import { checkIfCookieExists } from '../util/jwtUtil';
 import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 
@@ -12,6 +13,12 @@ class Login extends Component {
         this.state = {
             error: false
         };
+    }
+
+    componentDidMount() {
+        if (checkIfCookieExists()) {
+            this.props.history.push('/platform');
+        }
     }
 
     handleSubmit = (e) => {

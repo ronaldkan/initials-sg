@@ -7,7 +7,7 @@ const token = "token";
 
 export function getDecryptedJwt() {
     try {
-        if (Cookies.get("initialsdemo")) {
+        if (Cookies.get(token)) {
             return cryptr.decrypt(Cookies.get(token));
         }
     } catch (error) {
@@ -25,4 +25,17 @@ export function getUserIdFromJwt() {
 
 export function decryptJobData(data) {
     return cryptr.decrypt(data);
+}
+
+export function checkIfCookieExists() {
+    console.log('hello');
+    try {
+        console.log(Cookies.get(token));
+        if (Cookies.get(token)) {
+            return true;
+        }
+    } catch (err) {
+        return false;
+    }
+    return false;
 }

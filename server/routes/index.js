@@ -40,7 +40,7 @@ const url = process.env.FRONTEND || "http://localhost:3000";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        template.createTemplate(file.originalname, "[]", req.importedUser[0].firstname + " " + req.importedUser[0].lastname).then(template => {
+        template.createTemplate(file.originalname, "[]", req.importedUser.firstname + " " + req.importedUser.lastname, req.importedUser.id).then(template => {
             const filePath = path.join(__dirname, '../pdf/templates/' + template.id);
             fs.mkdirSync(filePath);
             cb(null, filePath);
@@ -61,8 +61,8 @@ router.post('/api/upload', [withAuth, upload.single('file')], (req, res) => {
     res.send({ result: 'success' });
 });
 
-router.get('/api/documents', (req, res) => {
-    template.getAll().then(data => {
+router.get('/api/documents', withAuth, (req, res) => {
+    template.getAll(req.importedUser.id).then(data => {
         res.json(data);
     });
 });
@@ -84,6 +84,12 @@ router.post('/api/save', withAuth, (req, res) => {
     template.updateTemplate(req.body.id, req.body.components).then(function (data) {
         res.send({ result: 'success' });
     });
+});
+
+router.get('/api/template/delete/:id', withAuth, (req, res) => {
+    template.deleteTemplateById(req.params.id).then(data => {
+        res.json(data);
+    })
 });
 
 /* 
@@ -368,7 +374,6 @@ router.get('/api/user', withAuth, (req, res) => {
 
 router.post('/api/user', (req, res) => {
     bcrypt.hash(req.body.password, 10, function (err, hash) {
-        console.log(hash);
         req.body.password = hash;
         user.createUser(req.body).then(user => {
             res.json(user);

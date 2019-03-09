@@ -3,7 +3,7 @@ import DefaultNavbar from '../static/defaultNavbar';
 import Footer from '../static/footer';
 import Sidebar from './common/sidebar';
 import { getRequest, getUrl } from '../util/requestUtil';
-import { List, Button, Upload, message, Icon } from 'antd';
+import { List, Button, Upload, message, Icon, Switch } from 'antd';
 const url = getUrl();
 
 class Home extends Component {
@@ -30,6 +30,15 @@ class Home extends Component {
                 this.setState({ documents: myData });
             });
     }
+
+    deleteTemplate = (id) => {
+        getRequest('/api/template/delete/' + id, {})
+            .then(response => response.data)
+            .then(data => {
+                this.getDocuments();
+            });
+    }
+
 
     getUploadProps(getDocs) {
         return {
@@ -65,10 +74,10 @@ class Home extends Component {
                 <section className="sgds-section">
                     <div className="sgds-container">
                         <div className="row">
-                            <div className="col is-3 is-hidden-touch has-side-nav">
+                            <div className="col is-3 has-side-nav">
                                 <Sidebar getToHome={this.getToHome} />
                             </div>
-                            <div className="col is-9 is-hidden-touch has-side-nav">
+                            <div className="col is-9 has-side-nav">
                                 <Upload {...props} style={{ marginBottom: '15px' }}>
                                     <Button>
                                         <Icon type="upload" /> Upload
@@ -79,7 +88,11 @@ class Home extends Component {
                                     itemLayout="horizontal"
                                     dataSource={documents}
                                     renderItem={item => (
-                                        <List.Item actions={[<Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`platform/view/${item.id}`)}>View</Button>]}>
+                                        <List.Item actions={[
+                                            <Button className="sgds-button is-rounded is-secondary" onClick={() => this.props.history.push(`platform/view/${item.id}`)}>View</Button>,
+                                            // <Button className="sgds-button is-rounded is-primary" onClick={() => this.props.history.push(`platform/view/${item.id}`)}>Share</Button>,
+                                            <Button className="sgds-button is-rounded is-danger" onClick={() => this.deleteTemplate(item.id)}>Delete</Button>
+                                        ]}>
                                             <List.Item.Meta
                                                 title={item.title}
                                                 description={item.description}
