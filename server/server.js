@@ -11,6 +11,7 @@ const index = require('./routes/index');
 const models = require('./models');
 var organization = require('./services/organization');
 var user = require('./services/user');
+var addressBookEntry = require('./services/addressbookentry');
 var admin = require('./services/admin');
 const currentPath = path.join(__dirname) + '/pdf';
 const templatePath = currentPath + '/templates';
@@ -61,6 +62,10 @@ models.Organization.sync().then(data => {
         })
         console.log("User synced");
     });
+
+    models.AddressBookEntry.sync().then(data => {
+        console.log("AddressBookEntry synced");
+    })
 });
 
 models.Administrator.sync().then(data => {

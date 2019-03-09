@@ -5,7 +5,7 @@ import Sidebar from './common/sidebar';
 import DataTable from './common/dataTable';
 import { getRequest, getBlobRequest, putRequest } from '../util/requestUtil';
 
-class Org extends Component {      
+class AddressBookEntry extends Component {      
 
     constructor() {
         super();
@@ -16,10 +16,10 @@ class Org extends Component {
     }
 
     render() {
-        const columnNames = ["key", "id", "name", "description", "createdAt", "updatedAt"];
-        const tableName = "Organizations";
-        const apiName = "/api/admin_organization";
-        const entity = "Organization";
+        const columnNames = ["key", "id", "email", "phonenumber", "firstname", "lastname", "createdAt", "updatedAt"];
+        const tableName = "AddressBookEntries";
+        const apiName = "/api/admin_addressbookentry";
+        const entity = "AddressBookEntry";
 
         return (
             <div className="App">
@@ -42,4 +42,4 @@ class Org extends Component {
     }
 }
 
-export default Org;
+export default AddressBookEntry;

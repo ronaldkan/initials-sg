@@ -78,12 +78,12 @@ class Sidebar extends Component {
                                             <small>Organizations</small>
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link to="/admin"
+                                    <li>
+                                        <Link to="/admin/addressbookentry"
                                             className="padding--sm">
-                                            <small>Usage</small>
+                                            <small>Address Book Entries</small>
                                         </Link>
-                                    </li> */}
+                                    </li>
                                     <li>
                                         <a onClick={() => this.logout(getToHome)}
                                             className="padding--sm">

@@ -17,6 +17,7 @@ const smtpUtil = require('../utils/smtp');
 var template = require('../services/template');
 var job = require('../services/job');
 var organization = require('../services/organization');
+var addressbookentry = require('../services/addressbookentry');
 var user = require('../services/user');
 var admin = require('../services/admin');
 
@@ -318,6 +319,16 @@ router.get('/api/sign/:uuid', withAuth, (req, res) => {
 });
 
 /*
+    Address Book Entries
+*/
+
+router.get('/api/admin_addressbookentry', withAdminAuth, (req, res) => {
+    addressbookentry.getAll().then(entries => {
+        res.json(entries);
+    })
+});
+
+/*
     Organization
 */
 
@@ -344,6 +355,10 @@ router.post('/api/admin_organization', withAdminAuth, (req, res) => {
         res.json(org);
     });
 });
+
+/*
+    User
+*/
 
 router.get('/api/user', withAuth, (req, res) => {
     user.getAll().then(users => {
@@ -374,7 +389,7 @@ router.post('/api/login', (req, res) => {
                     user: user,
                     secret: mirrorSecret
                 }, secret, {
-                        expiresIn: '1hr'
+                        expiresIn: 6000
                     })
                 // 15 mins cookie - 90000ms
                 res.cookie('token', cryptr.encrypt(token), { expires: new Date(Date.now() + 9000000), httpOnly: true }).sendStatus(200);
@@ -401,7 +416,7 @@ router.post('/api/adminLogin', (req, res) => {
                     admin: admin,
                     secret: mirrorSecret
                 }, secret, {
-                        expiresIn: 60
+                        expiresIn: 6000
                     })
                 // 15 mins cookie - 90000ms
                 res.cookie('adminToken', cryptr.encrypt(adminToken), { expires: new Date(Date.now() + 9000000), httpOnly: true }).sendStatus(200);
