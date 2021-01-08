@@ -28,11 +28,11 @@ var securePin = require("secure-pin");
 const { withAuth, withAdminAuth } = require('../authMiddleware');
 
 // Secrets 
-const secret = '%ivlkCTaW;<Fk@L#cBVK:!yHbZ/y)3';
-var mirrorSecret = "FCOOeyckl0eVHLQsLN0qvtAJACmIPIXd";
+const secret = '';
+var mirrorSecret = "";
 var cryptr = new Cryptr('nk<%4]<`(6Q@X3A(0gBS5&l[X3dIE.');
-const accountSid = 'AC6f83c82769898deb5ca92f1ab7e0ab25';
-const authToken = '08ac8dbba600fd0d4ea20ebc69569ac1';
+const accountSid = '';
+const authToken = '';
 const client = require('twilio')(accountSid, authToken);
 
 const url = process.env.FRONTEND || "http://localhost:3000";
