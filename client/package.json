@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.10.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "cryptr": "^4.0.2",
     "file-saver": "^2.0.0",
     "html2canvas": "^1.0.0-alpha.12",
